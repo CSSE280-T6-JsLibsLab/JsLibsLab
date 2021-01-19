@@ -50,6 +50,10 @@ body {
   margin-left: 0;
 }
 
+#material-icons {
+  margin-right: auto;
+}
+
 @media (min-width: 768px) {
   #sidebar-wrapper {
     margin-left: 0;

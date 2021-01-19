@@ -17,8 +17,28 @@
     <div class="bg-light border-right" id="sidebar-wrapper">
       <div class="sidebar-heading">Control Panel </div>
       <div class="list-group list-group-flush sidenav">
-        <a href="#" class="list-group-item list-group-item-action">
-            Enable Scripts&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+        <div id="enableListItem" class="list-group-item list-group-item-action">
+          <div>Enable Scripts</div>
+          <i id="enableListItemIcon" class="material-icons">radio_button_unchecked</i>
+        </div>
+        <div id="refreshListItem" class="list-group-item list-group-item-action">
+          <div>Refresh</div>
+          <i class="material-icons">refresh</i>
+        </div>
+        <div id="pageElementsListItem" class="list-group-item list-group-item-action">
+          <div>Page Elements</div>
+          <i class="material-icons">chevron_right</i>
+        </div>
+        <div id="resetListItem" class="list-group-item list-group-item-action">
+          <div>Reset Page</div>
+          <i class="material-icons">subdirectory_arrow_left</i>
+        </div>
+        <div id="manageListItem" class="list-group-item list-group-item-action">
+          <div>Manage Effects</div>
+          <i class="material-icons">expand_more</i>
+        </div>
+        <!-- <a href="#" class="list-group-item list-group-item-action">
+            Enable Scripts
             <i class="material-icons">radio_button_unchecked</i>
         </a>
         <a href="#" class="list-group-item list-group-item-action">
@@ -35,7 +55,7 @@
         <a href="#" class="list-group-item list-group-item-action">
             Manage Effects&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
             <i class="material-icons">expand_more</i>
-        </a>
+        </a> -->
       </div>
     </div>
 
@@ -52,14 +72,15 @@
       </nav>
 
       <div class="container-fluid">
-        <h1 class="mt-4">Lorem Ipsum Dolor Sit Amet</h1>
-        <p>Consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim
+        <h1 class="mt-4" id="titleText">Lorem Ipsum Dolor Sit Amet</h1>
+        <p id="paragraphText1">Consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim
           ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis
           aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.
           Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est
           laborum.
         </p>
-        <p><img id="sampleImg" src="https://hatrabbits.com/wp-content/uploads/2017/01/random.jpg" alt="sampleImg">
+        <p id="paragraphText2">
+          <img id="sampleImg" src="https://hatrabbits.com/wp-content/uploads/2017/01/random.jpg" alt="sampleImg">
           Vestibulum mattis ullamcorper velit sed ullamcorper morbi tincidunt ornare. Morbi tristique senectus
           et netu set.
           Consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim
