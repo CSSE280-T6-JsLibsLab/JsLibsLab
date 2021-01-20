@@ -22,7 +22,7 @@ body {
 
 #wrapper {
     overflow-x: hidden;
- }
+}
 
 #sidebar-wrapper {
   min-height: 100vh;
@@ -53,6 +53,10 @@ body {
 #manageListItemExpand {
   height: 300px;
   background-color: white;
+}
+
+#settingsIcon {
+  color: white;
 }
 
 @media (min-width: 768px) {
