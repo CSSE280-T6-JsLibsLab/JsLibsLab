@@ -50,8 +50,9 @@ body {
   margin-left: 0;
 }
 
-#material-icons {
-  margin-right: auto;
+#manageListItemExpand {
+  height: 300px;
+  background-color: white;
 }
 
 @media (min-width: 768px) {
