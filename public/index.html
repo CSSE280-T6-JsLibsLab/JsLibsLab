@@ -6,28 +6,72 @@
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
   <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700|Material+Icons">
   <link rel="stylesheet" href="styles/bootstrap-material-design.min.css">
-  <link rel="stylesheet" href="styles/main.css">
+  <link rel="stylesheet" href="https://www.gstatic.com/firebasejs/ui/4.7.1/firebase-ui-auth.css" />
+  <link rel="stylesheet" href="styles/login.css">
   <title>JS Libs Lab</title>
 </head>
 
 <body>
   <nav class="navbar navbar-dark fixed-top">
-    <a class="navbar-brand" href="#">App Name</a>
+    <a class="navbar-brand" href="#">JS Libs Lab</a>
   </nav>
-  <div id="mainPage" class="container page-container">
+  <div id="loginPage" class="container page-container">
 
+    <div class="kpx_login">
+      <h3 class="kpx_authTitle">Login or <a href="#">Sign up</a></h3>
+    </div>
+    <br>
+
+    <div class="row justify-content-center">
+      <div class="col-xs-12 col-sm-6">
+        <div class="input-group">
+          <span class="input-group-addon"><span class="fa fa-user"></span></span>
+          <input type="text" class="form-control" name="username" placeholder="Username">
+        </div>
+        <hr />
+  
+        <div class="input-group">
+          <span class="input-group-addon"><span class="fa fa-key"></span></span>
+          <input type="password" class="form-control" name="password" placeholder="Password">
+        </div>
+        <!-- <span class="tag tag-danger">Password Error!</span> |
+        <span class="tag tag-success">Login success!</span> |
+        <span class="tag tag-warning">Some of password must not be empty!</span> -->
+        <hr />
+        <button class="btn btn-lg btn-outline-primary btn-block" type="submit"><i class="fa fa-sign-in"></i>
+          Login</button>
+        <!-- <form class="kpx_loginForm" action="" autocomplete="off" method="POST"></form> -->
+      </div>
+  
+    </div>
+    <div class="row">
+      <div class="col-12">
+        <div id="firebaseui-auth-container"></div>
+      </div>
+    </div>
 
   </div>
+
+  
+
   <script src="scripts/jquery.min.js"></script>
   <script src="scripts/popper.js"></script>
   <script src="scripts/bootstrap-material-design.js"></script>
-  <script>$("body").bootstrapMaterialDesign();</script>
+  <script>
+    $("body").bootstrapMaterialDesign();
+  </script>
   <script src="/__/firebase/7.18.0/firebase-app.js"></script>
   <script src="/__/firebase/7.18.0/firebase-analytics.js"></script>
   <script src="/__/firebase/7.18.0/firebase-auth.js"></script>
   <script src="/__/firebase/7.18.0/firebase-firestore.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/ui/4.7.1/firebase-ui-auth.js"></script>
   <script src="/__/firebase/init.js"></script>
   <script src="scripts/main.js"></script>
+  <script>
+    $(function () {
+      $('[data-toggle="tooltip"]').tooltip()
+    })
+  </script>
 </body>
 
 </html>

@@ -1,0 +1,31 @@
+body {
+    background: #fff;
+}
+
+.navbar {
+    background-color: #DBD288;
+}
+
+.page-container {
+    margin-top: 75px;
+}
+
+a{
+    color:#ff5400;
+}
+a:hover {
+    opacity: 0.8;
+    color:#ff5400;
+    text-decoration:none;
+}
+.kpx_login .kpx_authTitle {
+    text-align: center;
+    line-height: 300%;
+}
+
+.kpx_login .kpx_loginForm .input-group.i {
+	width: 2em;
+}
+.kpx_login .kpx_loginForm  .help-block {
+    color: red;
+}
