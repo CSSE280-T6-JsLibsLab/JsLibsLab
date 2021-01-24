@@ -2,8 +2,18 @@ body {
     background: rgb(245, 221, 66);
 }
 
-.page-container {
+.bmd-layout-content {
     margin-top: 75px;
+}
+
+.row {
+    margin: 0;
+}
+
+#loginNavTitle {
+    color: snow;
+    margin-top: 25px;
+    margin-bottom: 50px;
 }
 
 .kpx_login .kpx_authTitle {
@@ -23,10 +33,6 @@ body {
     height: 100vh;
 }
 
-.list-group-item :first-child {
-    margin-right: 0.75rem;
-}
-
 .form-color-white {
     color: white;
 }
@@ -42,9 +48,10 @@ body {
 }
 
 .bmd-drawer-f-l>.bmd-layout-drawer {
-    width: 350px;
+    width: 360px;
     transform: translateX(-360px);
 }
+
 
 /* background-color: #DBD288; */
 
