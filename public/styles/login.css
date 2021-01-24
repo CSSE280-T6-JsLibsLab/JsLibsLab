@@ -2,22 +2,8 @@ body {
     background: rgb(245, 221, 66);
 }
 
-.navbar {
-    background-color: #DBD288;
-}
-
 .page-container {
     margin-top: 75px;
-}
-
-a {
-    color: #ff5400;
-}
-
-a:hover {
-    opacity: 0.8;
-    color: #ff5400;
-    text-decoration: none;
 }
 
 .kpx_login .kpx_authTitle {
@@ -33,57 +19,12 @@ a:hover {
     color: red;
 }
 
-.sidenav {
-    height: 100%;
-    /* 100% Full-height */
-    width: 0;
-    /* 0 width - change this with JavaScript */
-    position: fixed;
-    /* Stay in place */
-    z-index: 1;
-    /* Stay on top */
-    top: 0;
-    /* Stay at the top */
-    left: 0;
-    background-color: #111;
-    /* Black*/
-    overflow-x: hidden;
-    /* Disable horizontal scroll */
-    padding-top: 60px;
-    /* Place content 60px from the top */
-    transition: 0.5s;
-    /* 0.5 second transition effect to slide in the sidenav */
+.bmd-layout-content {  
+    height: 100vh;
 }
 
-/* The navigation menu links */
-.sidenav a {
-    padding: 8px 8px 8px 32px;
-    text-decoration: none;
-    font-size: 25px;
-    color: #818181;
-    display: block;
-    transition: 0.3s;
-}
-
-/* When you mouse over the navigation links, change their color */
-.sidenav a:hover {
-    color: #f1f1f1;
-}
-
-/* Position and style the close button (top right corner) */
-.sidenav .closebtn {
-    position: absolute;
-    top: 0;
-    right: 25px;
-    font-size: 36px;
-    margin-left: 50px;
-}
-
-/* Style page content - use this if you want to push the page content to the right when you open the side navigation */
-#loginPage {
-    transition: margin-left .5s;
-    padding: 20px;
-    margin-left: 0;
+.list-group-item :first-child {
+    margin-right: 0.75rem;
 }
 
 .form-color-white {
@@ -100,32 +41,15 @@ a:hover {
     border-color: snow;
 }
 
-.bmd-layout-content {
-    height: 100vh;
-}
-
-.list-group-item :first-child {
-    margin-right: 0.75rem;
-}
-
-.bmd-layout-drawer>.list-group .list-group-item {
-    padding-left: 1.5rem;
-}
-
-#menuProfileSection {
-    height: 169px;
-}
-
 .bmd-drawer-f-l>.bmd-layout-drawer {
     width: 350px;
     transform: translateX(-360px);
 }
 
-.bmd-layout-drawer>.list-group {
-    padding: 0;
-}
+/* background-color: #DBD288; */
 
-/* On smaller screens, where height is less than 450px, change the style of the sidenav (less padding and a smaller font size) */
+
+/* On smaller screens, where height is less than 450px, change the style of the sidenav (less padding and a smaller font size)
 @media screen and (max-height: 450px) {
     .sidenav {
         padding-top: 15px;
@@ -134,4 +58,4 @@ a:hover {
     .sidenav a {
         font-size: 18px;
     }
-}
+} */

@@ -12,24 +12,21 @@
 </head>
 
 <body>
-
-  <div id="loginPage" class="container page-container">
-
-    <nav class="navbar navbar-dark fixed-top">
-      <div>
-        <button type="button" id="login-menu-toggle" class="btn bmd-btn-icon" onclick="openNav()">
-          <i id="settingsIcon" class="material-icons">settings</i>
+  <div class="bmd-layout-container bmd-drawer-f-l bmd-drawer-overlay">
+    <header class="bmd-layout-header">
+      <div class="navbar navbar-dark bg-faded fixed-top justify-content-start">
+        <button class="navbar-toggler" type="button" data-toggle="drawer" data-target="#dw-s2">
+          <span class="sr-only">Toggle drawer</span>
+          <i class="material-icons">menu</i>
         </button>
         <a class="navbar-brand" href="#">JS Libs Lab</a>
       </div>
-      <button type="button" id="login-menu-toggle" class="btn bmd-btn-icon">
-        <i id="settingsIcon" class="material-icons">settings</i>
-        <p class="navbar-brand" href="#">JS Libs Lab</p>
-      </button>
-    </nav>
+    </header>
 
-    <div id="mySidenav" class="sidenav" style="background-image: url('/images/Login_Background.png');">
-      <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
+    <div id="dw-s2" class="bmd-layout-drawer bg-faded" style="background: url('images/Login_Background.png')">
+      <header>
+        <a class="navbar-brand">JS Libs Lab</a>
+      </header>
       <div class="row justify-content-center">
         <div class="col-xs-12 col-sm-8 col-md-6">
           <div class="input-group">
@@ -37,7 +34,6 @@
             <input type="text" class="form-control form-color-white" name="username" placeholder="Email">
           </div>
           <hr />
-
           <div class="input-group">
             <span class="input-group-addon"><span class="fa fa-key"></span></span>
             <input type="password" class="form-control form-color-white" name="password" placeholder="Password">
@@ -53,22 +49,19 @@
           <div id="firebaseui-auth-container"></div>
         </div>
       </div>
+
     </div>
+    <main class="bmd-layout-content" style="background-image: url('images/bk.png');">
+      <div id="loginPage" class="container page-container">
+
+        <button>ABC</button>
 
 
-    <button>ABC</button>
-    <!-- Add all page content inside this div if you want the side nav to push page content to the right (not used if you only want the sidenav to sit on top of the page -->
-    <!-- <div id="main">
-      #Background Image
-    </div> -->
 
+
+      </div>
+    </main>
   </div>
-
-
-
-
-
-
 
   <script src="scripts/jquery.min.js"></script>
   <script src="scripts/popper.js"></script>
@@ -83,24 +76,11 @@
   <script src="https://www.gstatic.com/firebasejs/ui/4.7.1/firebase-ui-auth.js"></script>
   <script src="/__/firebase/init.js"></script>
   <script src="scripts/main.js"></script>
-  <script>
+  <!-- <script>
     $(function () {
       $('[data-toggle="tooltip"]').tooltip()
     })
-  </script>
-  <script>
-    function openNav() {
-      window.innerWidth
-      document.getElementById("mySidenav").style.width = window.innerWidth < 576 ? "100%" : "500px";
-      document.getElementById("loginPage").style.marginLeft = window.innerWidth < 576 ? window.innerWidth : "500px";
-    }
-
-    /* Set the width of the side navigation to 0 and the left margin of the page content to 0 */
-    function closeNav() {
-      document.getElementById("mySidenav").style.width = "0";
-      document.getElementById("loginPage").style.marginLeft = "0";
-    }
-  </script>
+  </script> -->
 </body>
 
 </html>
