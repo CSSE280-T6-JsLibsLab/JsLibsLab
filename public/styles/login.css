@@ -87,6 +87,20 @@ a:hover {
     margin-left: 0;
 }
 
+.form-color-white {
+    color: white;
+}
+.form-color-white:focus {
+    color: white;
+}
+.form-color-white::placeholder {
+    color: silver;
+}
+#loginButton {
+    color: snow;
+    border-color: snow;
+}
+
 /* On smaller screens, where height is less than 450px, change the style of the sidenav (less padding and a smaller font size) */
 @media screen and (max-height: 450px) {
     .sidenav {

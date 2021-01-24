@@ -49,7 +49,13 @@ rhit.PreviewPageController = class {
 rhit.main = function () {
 	console.log("Ready");
 	//new this.PreviewPageController();
-	this.startFirebaseUI();
+	
+	if (document.querySelector("#loginpage")) {
+		this.startFirebaseUI();
+	}
+	if (document.querySelector("#previewPage")) {
+		new rhit.PreviewPageController();
+	}
 };
 
 rhit.startFirebaseUI = function() {
@@ -62,8 +68,8 @@ rhit.startFirebaseUI = function() {
           firebase.auth.PhoneAuthProvider.PROVIDER_ID,
           firebaseui.auth.AnonymousAuthProvider.PROVIDER_ID
         ],
-      };
-      const ui = new firebaseui.auth.AuthUI(firebase.auth());
+	  };
+	  const ui = new firebaseui.auth.AuthUI(firebase.auth());
       ui.start('#firebaseui-auth-container', uiConfig);
 }
 
