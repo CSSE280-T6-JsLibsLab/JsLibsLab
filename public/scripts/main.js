@@ -14,8 +14,14 @@ rhit.PreviewPageController = class {
 	constructor() {
 
 		document.querySelector("#enableListItem").addEventListener("click", (event) => {
-			document.querySelector("#enableListItemIcon").innerHTML =
-			document.querySelector("#enableListItemIcon").innerHTML == "radio_button_checked" ? "radio_button_unchecked" : "radio_button_checked";
+			if (document.querySelector("#enableListItemIcon").innerHTML == "radio_button_checked") {
+				document.querySelector("#enableListItemIcon").innerHTML = "radio_button_unchecked";
+				endEffect();
+			} else {
+				document.querySelector("#enableListItemIcon").innerHTML = "radio_button_checked";
+				startEffect();
+			}
+			
 		})
 
 		document.querySelector("#refreshListItem").addEventListener("click", (event) => {
@@ -49,28 +55,31 @@ rhit.PreviewPageController = class {
 rhit.main = function () {
 	console.log("Ready");
 	//new this.PreviewPageController();
-	
-	if (document.querySelector("#loginpage")) {
+
+	if (document.querySelector("#loginPage")) {
 		this.startFirebaseUI();
 	}
 	if (document.querySelector("#previewPage")) {
+		const s = document.createElement('script');
+		s['setAttribute']('src', 'scripts/letitsnow.js');
+		document.head.appendChild(s);
 		new rhit.PreviewPageController();
 	}
 };
 
-rhit.startFirebaseUI = function() {
+rhit.startFirebaseUI = function () {
 	var uiConfig = {
-        signInSuccessUrl: '/main.html',
-        signInOptions: [
-          // Leave the lines as is for the providers you want to offer your users.
-          firebase.auth.GoogleAuthProvider.PROVIDER_ID,
-          firebase.auth.EmailAuthProvider.PROVIDER_ID,
-          firebase.auth.PhoneAuthProvider.PROVIDER_ID,
-          firebaseui.auth.AnonymousAuthProvider.PROVIDER_ID
-        ],
-	  };
-	  const ui = new firebaseui.auth.AuthUI(firebase.auth());
-      ui.start('#firebaseui-auth-container', uiConfig);
+		signInSuccessUrl: '/main.html',
+		signInOptions: [
+			// Leave the lines as is for the providers you want to offer your users.
+			firebase.auth.GoogleAuthProvider.PROVIDER_ID,
+			firebase.auth.EmailAuthProvider.PROVIDER_ID,
+			firebase.auth.PhoneAuthProvider.PROVIDER_ID,
+			firebaseui.auth.AnonymousAuthProvider.PROVIDER_ID
+		],
+	};
+	const ui = new firebaseui.auth.AuthUI(firebase.auth());
+	ui.start('#firebaseui-auth-container', uiConfig);
 }
 
 rhit.main();

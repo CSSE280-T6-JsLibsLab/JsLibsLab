@@ -2,126 +2,61 @@
 <html lang="en">
 
 <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700|Material+Icons">
-    <link rel="stylesheet" href="styles/bootstrap-material-design.min.css">
-    <link rel="stylesheet" href="styles/preview.css">
-    <title>Preview</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700|Material+Icons">
+  <link rel="stylesheet" href="styles/bootstrap-material-design.min.css">
+  <link rel="stylesheet" href="styles/profile.css">
+  <title>Your Profile</title>
 </head>
 
 <body>
-    <div class="d-flex" id="wrapper">
 
-        <!-- Sidebar -->
-        <!-- <div class="bg-light border-right" id="sidebar-wrapper">
-            <div class="sidebar-heading">Control Panel </div>
-            <div class="list-group list-group-flush sidenav">
-                <div id="enableListItem" class="list-group-item list-group-item-action">
-                    <div>Enable Scripts</div>
-                    <i id="enableListItemIcon" class="material-icons">radio_button_unchecked</i>
-                </div>
-                <div id="refreshListItem" class="list-group-item list-group-item-action">
-                    <div>Refresh</div>
-                    <i class="material-icons">refresh</i>
-                </div>
-                <div id="pageElementsListItem" class="list-group-item list-group-item-action">
-                    <div>Page Elements</div>
-                    <i class="material-icons">chevron_right</i>
-                </div>
-                <div id="resetListItem" class="list-group-item list-group-item-action">
-                    <div>Reset Page</div>
-                    <i class="material-icons">subdirectory_arrow_left</i>
-                </div>
-                <div id="manageListItem" class="list-group-item list-group-item-action">
-                    <div>Manage Effects</div>
-                    <i id="manageListItemIcon" class="material-icons">expand_more</i>
-                </div>
-                <div id="manageListItemExpand" class="list-group-item list-group-item-action"
-                    style="overflow-y:scroll; display: none">
-                    <div id="testItem" class="list-group-item list-group-item-action">
-                        <div>Random Effect</div>
-                    </div>
-                    <div id="testItem" class="list-group-item list-group-item-action">
-                        <div>Random Effect</div>
-                    </div>
-                    <div id="testItem" class="list-group-item list-group-item-action">
-                        <div>Random Effect</div>
-                    </div>
-                    <div id="testItem" class="list-group-item list-group-item-action">
-                        <div>Random Effect</div>
-                    </div>
-                    <div id="testItem" class="list-group-item list-group-item-action">
-                        <div>Random Effect</div>
-                    </div>
-                </div>
-            </div>
-        </div> -->
-
-        <!-- Page Content -->
-        <div id="profilePage">
-            <div id="page-content-wrapper">
-
-                <nav class="navbar navbar-expand-lg border-bottom">
-                    <button type="button" id="menu-toggle" class="btn bmd-btn-icon navbar-toggle">
-                        <i id="menuIcon" class="material-icons">menu</i>
-                    </button>
-
-                    <div class="collapse navbar-collapse" id="navbarSupportedContent"></div>
-                </nav>
-                <div class="container-fluid">
-                    <p id="profileUsername">
-                        <img>
-                    </p>
-                </div>
-
-                <div id="profileDescription">
-                    <p id="profileDescriptionTitle">
-                        Description:
-                    </p>
-                    <p id="profileDescriptionText">
-                        This user doesn't have a description yet!
-                    </p>
-                </div>
-
-                <div id="profileLibraries">
-                    <p>
-                        Libraries Favorited:
-                    </p>
-                    <p>
-                        Libraries Uploaded:
-                    </p>
-                </div>
-
-            </div>
-            <!-- /#page-content-wrapper -->
-
+  <div class="bmd-layout-container bmd-drawer-f-l bmd-drawer-overlay">
+    <header class="bmd-layout-header">
+      <div class="navbar navbar-dark bg-faded fixed-top justify-content-start">
+        <button class="navbar-toggler" type="button" data-toggle="drawer" data-target="#dw-s2">
+          <span class="sr-only">Toggle drawer</span>
+          <i class="material-icons">menu</i>
+        </button>
+        <a class="navbar-brand" href="#">&nbsp;&nbsp;Js Libs Lab</a>
+      </div>
+    </header>
+    <div id="dw-s2" class="bmd-layout-drawer bg-faded">
+      <!-- <header>
+        <a class="navbar-brand">Js Libs Lab Menu</a>
+      </header> -->
+      <ul class="list-group">
+        <div id="menuProfileSection" style="background-image: url('images/MenuProfileSectionBackground.png');">
+          <img src="fangr.com" alt="ImageIcon">
+          <h4>Username</h4>
         </div>
-        <!-- /#wrapper -->
+        <a id="menuMyAccount" class="list-group-item"><i class="material-icons">person</i>My Account</a>
+        <a id="menuMyFavorites" class="list-group-item"><i class="material-icons">star</i>My Favorites</a>
+        <a id="menuFeaturingLibraries" class="list-group-item"><i class="material-icons">public</i>Featuring Libraries</a>
+        <a id="menuSearch" class="list-group-item"><i class="material-icons">search</i>Search Libraries</a>
+        <a id="menuUploadLibraries" class="list-group-item"><i class="material-icons">upload</i>Upload a New Library</a>
+        <a id="menuSignOut" class="list-group-item"><i class="material-icons">login</i>Sign out</a>
+      </ul>
     </div>
+    <main class="bmd-layout-content">
+      <div id="listPage" class="container page-container">
+      </div>
+    </main>
+  </div>
 
-
-    <script src="scripts/jquery.min.js"></script>
-    <script src="scripts/popper.js"></script>
-    <script src="scripts/bootstrap-material-design.js"></script>
-    <script>
-        $("body").bootstrapMaterialDesign();
-    </script>
-    <script src="/__/firebase/7.18.0/firebase-app.js"></script>
-    <script src="/__/firebase/7.18.0/firebase-analytics.js"></script>
-    <script src="/__/firebase/7.18.0/firebase-auth.js"></script>
-    <script src="/__/firebase/7.18.0/firebase-firestore.js"></script>
-    <script src="/__/firebase/init.js"></script>
-    <script src="scripts/main.js"></script>
-
-    <!-- Menu Toggle Script -->
-    <script>
-        $("#menu-toggle").click((e) => {
-            e.preventDefault();
-            $("#wrapper").toggleClass("toggled");
-        });
-    </script>
-
+  <script src="scripts/jquery.min.js"></script>
+  <script src="scripts/popper.js"></script>
+  <script src="scripts/bootstrap-material-design.js"></script>
+  <script>
+    $("body").bootstrapMaterialDesign();
+  </script>
+  <script src="/__/firebase/7.18.0/firebase-app.js"></script>
+  <script src="/__/firebase/7.18.0/firebase-analytics.js"></script>
+  <script src="/__/firebase/7.18.0/firebase-auth.js"></script>
+  <script src="/__/firebase/7.18.0/firebase-firestore.js"></script>
+  <script src="/__/firebase/init.js"></script>
+  <script src="scripts/main.js"></script>
 </body>
 
 </html>

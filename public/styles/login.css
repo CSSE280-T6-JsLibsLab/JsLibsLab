@@ -1,6 +1,5 @@
 body {
     background: rgb(245, 221, 66);
-    background-image: url('/images/bk.png');
 }
 
 .navbar {
@@ -99,6 +98,31 @@ a:hover {
 #loginButton {
     color: snow;
     border-color: snow;
+}
+
+.bmd-layout-content {
+    height: 100vh;
+}
+
+.list-group-item :first-child {
+    margin-right: 0.75rem;
+}
+
+.bmd-layout-drawer>.list-group .list-group-item {
+    padding-left: 1.5rem;
+}
+
+#menuProfileSection {
+    height: 169px;
+}
+
+.bmd-drawer-f-l>.bmd-layout-drawer {
+    width: 350px;
+    transform: translateX(-360px);
+}
+
+.bmd-layout-drawer>.list-group {
+    padding: 0;
 }
 
 /* On smaller screens, where height is less than 450px, change the style of the sidenav (less padding and a smaller font size) */
