@@ -1,27 +1,30 @@
 var rhit = rhit || {};
 
-/** globals */
-rhit.variableName = "";
-
 rhit.DEFAULT_PREVIEW_IMAGE_HTML = "<img id=\"sampleImg\" src=\"https://hatrabbits.com/wp-content/uploads/2017/01/random.jpg\" alt=\"sampleImg\">"
 
-/** function and class syntax examples */
-rhit.functionName = function () {
-	/** function body */
-};
+function htmlToElement(html) {
+	var template = document.createElement("template");
+	html = html.trim();
+	template.innerHTML = html;
+	return template.content.firstChild;
+}
 
 rhit.PreviewPageController = class {
 	constructor() {
-
 		document.querySelector("#enableListItem").addEventListener("click", (event) => {
 			if (document.querySelector("#enableListItemIcon").innerHTML == "radio_button_checked") {
 				document.querySelector("#enableListItemIcon").innerHTML = "radio_button_unchecked";
 				endEffect();
+				document.querySelector("#colorpicker").style.display = "none";
+				clearEffectEditablePage();
+				clearEffectFlyingPics();
 			} else {
 				document.querySelector("#enableListItemIcon").innerHTML = "radio_button_checked";
 				startEffect();
+				document.querySelector("#colorpicker").style.display = "block";
+				startEffectEditablePage();
+				startEffectFlyingPics();
 			}
-			
 		})
 
 		document.querySelector("#refreshListItem").addEventListener("click", (event) => {
@@ -60,9 +63,18 @@ rhit.main = function () {
 		this.startFirebaseUI();
 	}
 	if (document.querySelector("#previewPage")) {
-		const s = document.createElement('script');
-		s['setAttribute']('src', 'scripts/letitsnow.js');
-		document.head.appendChild(s);
+		const s1 = document.createElement('script');
+		s1['setAttribute']('src', 'scripts/letitsnow.js');
+		document.head.appendChild(s1);
+		const s2 = document.createElement('script');
+		s2['setAttribute']('src', 'scripts/colorpicker.js');
+		document.head.appendChild(s2);
+		const s3 = document.createElement('script');
+		s3['setAttribute']('src', 'scripts/flyingpics.js');
+		document.head.appendChild(s3);
+		const s4 = document.createElement('script');
+		s4['setAttribute']('src', 'scripts/editablepage.js');
+		document.head.appendChild(s4);
 		new rhit.PreviewPageController();
 	}
 };

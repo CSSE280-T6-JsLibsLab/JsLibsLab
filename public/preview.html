@@ -118,6 +118,15 @@
     <!-- /#wrapper -->
   </div>
 
+  <div id="colorpicker" style="display: none; position:absolute; left: 15vw; top: 15vh; z-index: 999;">
+    <input class="color-value" type="text" value="#ffffff" />
+    <div class="canvas-box" style="display:none;padding:10px;border:1px solid #ccc;">
+      <canvas id="canvas" style="cursor:crosshair;">
+        Your browser doesn't support canvas.
+      </canvas>
+      <button type="button" id="color-toggle" class="btn" style="background-color: gray;">Change!</button>
+    </div>
+  </div>
 
   <script src="scripts/jquery.min.js"></script>
   <script src="scripts/popper.js"></script>
