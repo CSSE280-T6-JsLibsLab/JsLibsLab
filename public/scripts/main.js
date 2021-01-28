@@ -1,6 +1,9 @@
 var rhit = rhit || {};
 
 rhit.DEFAULT_PREVIEW_IMAGE_HTML = "<img id=\"sampleImg\" src=\"https://hatrabbits.com/wp-content/uploads/2017/01/random.jpg\" alt=\"sampleImg\">"
+// TODO: This will be on firestore
+rhit.effects = ["Flying", "Toggle Editable"];
+
 
 function htmlToElement(html) {
 	var template = document.createElement("template");
@@ -11,19 +14,25 @@ function htmlToElement(html) {
 
 rhit.PreviewPageController = class {
 	constructor() {
+		this.selectedEffect = 0;
+		this.effectEnabled = false;
+		//this.effectMap = getEffectMap();
+		// TODO: Only allow one effect at a time??
 		document.querySelector("#enableListItem").addEventListener("click", (event) => {
 			if (document.querySelector("#enableListItemIcon").innerHTML == "radio_button_checked") {
 				document.querySelector("#enableListItemIcon").innerHTML = "radio_button_unchecked";
-				endEffect();
-				document.querySelector("#colorpicker").style.display = "none";
-				clearEffectEditablePage();
-				clearEffectFlyingPics();
+				effectMap.get(rhit.effects[this.selectedEffect])[1]();
+				this.effectEnabled = false;
+				//document.querySelector("#colorpicker").style.display = "none";
+				//clearEffectEditablePage();
+				//clearEffectFlyingPics();
 			} else {
 				document.querySelector("#enableListItemIcon").innerHTML = "radio_button_checked";
-				startEffect();
-				document.querySelector("#colorpicker").style.display = "block";
-				startEffectEditablePage();
-				startEffectFlyingPics();
+				effectMap.get(rhit.effects[this.selectedEffect])[0]();
+				this.effectEnabled = true;
+				//document.querySelector("#colorpicker").style.display = "block";
+				//startEffectEditablePage();
+				//startEffectFlyingPics();
 			}
 		})
 
@@ -44,12 +53,45 @@ rhit.PreviewPageController = class {
 				document.querySelector("#manageListItemIcon").innerHTML = "expand_less";
 			}
 		})
+
+		this.updateEffectList();
 	}
 
 	resetElements() {
 		document.querySelector("#titleText").innerHTML = "Lorem Ipsum Dolor Sit Amet"
 		document.querySelector("#paragraphText1").innerHTML = "Consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum."
 		document.querySelector("#paragraphText2").innerHTML = `${rhit.DEFAULT_PREVIEW_IMAGE_HTML}Vestibulum mattis ullamcorper velit sed ullamcorper morbi tincidunt ornare. Morbi tristique senectus et netu set. Consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.`
+	}
+
+	createEffectTab(effectName) {
+		return htmlToElement(`<div class="list-group-item list-group-item-action">
+								<div>${effectName}</div>
+	  						</div>`);
+	}
+
+	updateEffectList() {
+		const newList = htmlToElement('<div id="effectList"></div>');
+		for (let i = 0; i < rhit.effects.length; i++) {
+			const newEffectTab = this.createEffectTab(rhit.effects[i]);
+			if (i == this.selectedEffect) {
+				newEffectTab.style.color = "red";
+			}
+			newEffectTab.onclick = (event) => {
+				if (this.effectEnabled) {
+					alert("You must disable the enabled effect first!");
+					return;
+				}
+				this.selectedEffect = i;
+				this.updateEffectList();
+			}
+			newList.appendChild(newEffectTab);
+		}
+		const oldList = document.querySelector("#effectList");
+		oldList.removeAttribute("id");
+		oldList.hidden = true;
+
+		oldList.parentElement.append(newList);
+		oldList.remove();
 	}
 }
 
@@ -64,17 +106,17 @@ rhit.main = function () {
 	}
 	if (document.querySelector("#previewPage")) {
 		const s1 = document.createElement('script');
-		s1['setAttribute']('src', 'scripts/letitsnow.js');
-		document.head.appendChild(s1);
-		const s2 = document.createElement('script');
-		s2['setAttribute']('src', 'scripts/colorpicker.js');
-		document.head.appendChild(s2);
-		const s3 = document.createElement('script');
-		s3['setAttribute']('src', 'scripts/flyingpics.js');
-		document.head.appendChild(s3);
-		const s4 = document.createElement('script');
-		s4['setAttribute']('src', 'scripts/editablepage.js');
-		document.head.appendChild(s4);
+		s1['setAttribute']('src', 'scripts/libraries/test_multiple_effects.js');
+		document.head.appendChild(s1)
+		// const s2 = document.createElement('script');
+		// s2['setAttribute']('src', 'scripts/colorpicker.js');
+		// document.head.appendChild(s2);
+		// const s3 = document.createElement('script');
+		// s3['setAttribute']('src', 'scripts/flyingpics.js');
+		// document.head.appendChild(s3);
+		// const s4 = document.createElement('script');
+		// s4['setAttribute']('src', 'scripts/editablepage.js');
+		// document.head.appendChild(s4);
 		new rhit.PreviewPageController();
 	}
 };

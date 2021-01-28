@@ -104,7 +104,9 @@ function getRandom(option) {
 }
  
 // Start snow
-function startEffect() {
+
+
+let startSnowEffect = function () {
     // Create canvas
     var cxt;
     var canvas = document.createElement('canvas');
@@ -139,10 +141,12 @@ function startEffect() {
     })
 }
 
-function endEffect() {
+let endSnowEffect = function() {
     document.getElementsByTagName('body')[0].removeChild(document.querySelector("#canvas_snow"));
 }
- 
+
+
+
 // Handle window resize
 window.onresize = function () {
     var canvasSnow = document.getElementById('canvas_snow');
@@ -152,3 +156,6 @@ window.onresize = function () {
 
 // Let it snow O(”_”)0
 //startSnow();
+
+var effectMap = new Map();
+effectMap.set("Snow", [startSnowEffect, endSnowEffect])
