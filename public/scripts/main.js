@@ -2,8 +2,12 @@ var rhit = rhit || {};
 
 rhit.DEFAULT_PREVIEW_IMAGE_HTML = "<img id=\"sampleImg\" src=\"https://hatrabbits.com/wp-content/uploads/2017/01/random.jpg\" alt=\"sampleImg\">"
 // TODO: This will be on firestore
-rhit.effects = ["Colorpicker"];
-rhit.effect_file_name = 'colorpicker.js';
+rhit.effects = ["Sphere Animation", "Layered Animation"]; // "Easing Animation", "Layered Animation", "Sphere Animation", "Advanced Staggering"
+// TODO: Two more demos
+//https://codepen.io/juliangarnier/pen/dwKGoW
+//https://codepen.io/juliangarnier/pen/MZXQNV
+rhit.effect_file_name = ['animejs/anime.min.js', 'animejs/anime.js', 'animejs/anime.es.js', 'animejs/sphereDemo.js', 'animejs/layeredDemo.js'];
+
 
 
 function htmlToElement(html) {
@@ -24,17 +28,10 @@ rhit.PreviewPageController = class {
 				document.querySelector("#enableListItemIcon").innerHTML = "radio_button_unchecked";
 				effectMap.get(rhit.effects[this.selectedEffect])[1]();
 				this.effectEnabled = false;
-				
-				//document.querySelector("#colorpicker").style.display = "none";
-				//clearEffectEditablePage();
-				//clearEffectFlyingPics();
 			} else {
 				document.querySelector("#enableListItemIcon").innerHTML = "radio_button_checked";
 				effectMap.get(rhit.effects[this.selectedEffect])[0]();
 				this.effectEnabled = true;
-				//document.querySelector("#colorpicker").style.display = "block";
-				//startEffectEditablePage();
-				//startEffectFlyingPics();
 			}
 		})
 
@@ -107,18 +104,11 @@ rhit.main = function () {
 		this.startFirebaseUI();
 	}
 	if (document.querySelector("#previewPage")) {
-		const s1 = document.createElement('script');
-		s1['setAttribute']('src', `scripts/libraries/${rhit.effect_file_name}`);
-		document.head.appendChild(s1)
-		// const s2 = document.createElement('script');
-		// s2['setAttribute']('src', 'scripts/colorpicker.js');
-		// document.head.appendChild(s2);
-		// const s3 = document.createElement('script');
-		// s3['setAttribute']('src', 'scripts/flyingpics.js');
-		// document.head.appendChild(s3);
-		// const s4 = document.createElement('script');
-		// s4['setAttribute']('src', 'scripts/editablepage.js');
-		// document.head.appendChild(s4);
+		for (file_name of rhit.effect_file_name) {
+			const s1 = document.createElement('script');
+			s1['setAttribute']('src', `scripts/libraries/${file_name}`);
+			document.head.appendChild(s1)
+		}
 		new rhit.PreviewPageController();
 	}
 };

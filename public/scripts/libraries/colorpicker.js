@@ -273,5 +273,5 @@ const clearEffectColorPicker = function() {
     document.querySelector("#colorpicker").style.display = "none";
 }
 
-var effectMap = new Map();
+var effectMap = effectMap || new Map();
 effectMap.set("Colorpicker", [startEffectColorPicker, clearEffectColorPicker])

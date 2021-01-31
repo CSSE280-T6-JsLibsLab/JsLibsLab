@@ -157,5 +157,5 @@ window.onresize = function () {
 // Let it snow O(”_”)0
 //startSnow();
 
-var effectMap = new Map();
+var effectMap = effectMap || new Map();
 effectMap.set("Snow", [startSnowEffect, endSnowEffect])

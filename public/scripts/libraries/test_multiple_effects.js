@@ -45,6 +45,6 @@ let clearEffectEditablePage = function() {
     document.designMode = 'off';
 }
 
-var effectMap = new Map();
+var effectMap = effectMap || new Map();
 effectMap.set("Flying", [startEffectFlyingPics, clearEffectFlyingPics])
 effectMap.set("Toggle Editable", [startEffectEditablePage, clearEffectEditablePage])
