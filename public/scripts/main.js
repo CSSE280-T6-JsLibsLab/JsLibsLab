@@ -2,7 +2,8 @@ var rhit = rhit || {};
 
 rhit.DEFAULT_PREVIEW_IMAGE_HTML = "<img id=\"sampleImg\" src=\"https://hatrabbits.com/wp-content/uploads/2017/01/random.jpg\" alt=\"sampleImg\">"
 // TODO: This will be on firestore
-rhit.effects = ["Flying", "Toggle Editable"];
+rhit.effects = ["Colorpicker"];
+rhit.effect_file_name = 'colorpicker.js';
 
 
 function htmlToElement(html) {
@@ -23,6 +24,7 @@ rhit.PreviewPageController = class {
 				document.querySelector("#enableListItemIcon").innerHTML = "radio_button_unchecked";
 				effectMap.get(rhit.effects[this.selectedEffect])[1]();
 				this.effectEnabled = false;
+				
 				//document.querySelector("#colorpicker").style.display = "none";
 				//clearEffectEditablePage();
 				//clearEffectFlyingPics();
@@ -106,7 +108,7 @@ rhit.main = function () {
 	}
 	if (document.querySelector("#previewPage")) {
 		const s1 = document.createElement('script');
-		s1['setAttribute']('src', 'scripts/libraries/test_multiple_effects.js');
+		s1['setAttribute']('src', `scripts/libraries/${rhit.effect_file_name}`);
 		document.head.appendChild(s1)
 		// const s2 = document.createElement('script');
 		// s2['setAttribute']('src', 'scripts/colorpicker.js');

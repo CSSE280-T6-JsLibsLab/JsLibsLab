@@ -265,3 +265,13 @@ document.querySelector("#color-toggle").addEventListener("click", (event) => {
     console.log("color-toggle pressed: " + cHexColor);
     document.body.style.backgroundColor = cHexColor;
 })
+
+const startEffectColorPicker = function () {
+    document.querySelector("#colorpicker").style.display = "block";
+}
+const clearEffectColorPicker = function() {
+    document.querySelector("#colorpicker").style.display = "none";
+}
+
+var effectMap = new Map();
+effectMap.set("Colorpicker", [startEffectColorPicker, clearEffectColorPicker])

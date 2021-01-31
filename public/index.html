@@ -7,59 +7,40 @@
   <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700|Material+Icons">
   <link rel="stylesheet" href="styles/bootstrap-material-design.min.css">
   <link rel="stylesheet" href="https://www.gstatic.com/firebasejs/ui/4.7.1/firebase-ui-auth.css" />
-  <link rel="stylesheet" href="styles/login.css">
+  <link rel="stylesheet" href="styles/index.css">
   <title>JS Libs Lab</title>
 </head>
 
-<body>
-  <div class="bmd-layout-container bmd-drawer-f-l bmd-drawer-overlay">
-    <header class="bmd-layout-header">
-      <div class="navbar navbar-dark bg-faded fixed-top justify-content-start">
-        <button class="navbar-toggler" type="button" data-toggle="drawer" data-target="#dw-s2">
-          <span class="sr-only">Toggle drawer</span>
-          <i class="material-icons">menu</i>
-        </button>
-        <a class="navbar-brand" href="#">JS LibsLab</a>
-      </div>
-    </header>
+<body style="background-image:url('images/bk.png'); ">
+  <header class="bmd-layout-header fixed-top">
+    <nav class="navbar py-3" style="transition: background 1s ease 0s; background-color: #DBD288;">
 
-    <div id="dw-s2" class="bmd-layout-drawer bg-faded" style="background:url('images/Login_Background.png')">
-      <div id="loginNavTitle" class="row justify-content-center">
-        <header>
-          <a class="navbar-brand">Log into JS LibsLab</a>
-        </header>
+      <a class="navbar-brand float-left" href="#" style="color: white;">JS LibsLab</a>
+      <div class="d-none d-md-block recommend"></div>
+      <div class="float-right buttons">
+        <a href="./login.html" class="btn btn-md bg-white font-weight-bold">Log In</a>
       </div>
-      <div class="row justify-content-center">
-        <div class="col-xs-12 col-sm-8">
-          <div class="input-group">
-            <span class="input-group-addon"><span class="fa fa-user"></span></span>
-            <input type="text" class="form-control form-color-white" name="username" placeholder="Email">
-          </div>
-          <hr />
-          <div class="input-group">
-            <span class="input-group-addon"><span class="fa fa-key"></span></span>
-            <input type="password" class="form-control form-color-white" name="password" placeholder="Password">
-          </div>
-          <hr />
-          <button id="loginButton" class="btn btn-lg btn-outline-primary btn-block" type="submit"><i
-              class="fa fa-sign-in"></i>
-            Login</button>
-        </div>
-      </div>
-      <div class="">
-        <div class="col-12">
-          <div id="firebaseui-auth-container"></div>
-        </div>
-      </div>
+    </nav>
+  </header>
 
+  <main
+    style="background: linear-gradient(160deg,rgb(245, 221, 66), rgb(211, 170, 35)); padding-top: 20vh; padding-bottom: 25vh; margin-left: 10vw; margin-right: 10vw;">
+    <div id="loginPage" class="container page-container pt-7 pb-6 text-white">
+      <div class="row align-items-center text-center text-md-left">
+        <div class="col-lg-6">
+          <h1>With JS LibsLab, you can make your website much prettier</h1>
+          <p class="lead">A web application for new web development students and programmers who want to explore more on
+            web-related JavaScript.</p>
+        </div>
+        <div class="col-lg-6">
+          <img src="https://hatrabbits.com/wp-content/uploads/2017/01/random.jpg" class="img-fluid" alt="">
+        </div>      
+      </div>
+      <div class="row justify-content-center" style="margin-top: 50px">
+        <button href="./login.html" class="btn btn-wrap btn-lg" style="border-radius: 0.5rem; background-color:khaki; color: lightcoral;">Get Started</button>
+      </div>
     </div>
-    <main class="bmd-layout-content" style="background-image:url('images/bk.png');">
-      <div id="loginPage" class="container page-container">
-        <button>ABC</button>
-      </div>
-
-    </main>
-  </div>
+  </main>
 
   <script src="scripts/jquery.min.js"></script>
   <script src="scripts/popper.js"></script>
