@@ -132,8 +132,10 @@ var sphereAnimation = (function () {
 });
 
 
-
+// ------------------- The Code Below is just For Demostration on JS Libs Lab Website
 const startEffectSphere = function () {
+    // const sampleImg = document.querySelector("#sampleImg");
+    // sampleImg.parentNode.replaceChild(sphereWrapper, sampleImg);
     document.querySelector('body').append(sphereWrapper);
     document.querySelector('.animation-wrapper').style = "width: 50%; padding-bottom: 50%;"
     document.querySelector('.sphere-animation').style = "position: absolute; top: 50%; left: 50%; width: 580px; height: 580px; margin: -290px 0 0 -290px;";

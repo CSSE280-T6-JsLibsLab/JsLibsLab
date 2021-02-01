@@ -8,3 +8,5 @@ function clearEffectEditablePage() {
     document.body.contentEditable = 'false';
     document.designMode = 'off';
 }
+
+// ------------------- The Code Below is just For Demostration on JS Libs Lab Website

@@ -145,8 +145,6 @@ let endSnowEffect = function() {
     document.getElementsByTagName('body')[0].removeChild(document.querySelector("#canvas_snow"));
 }
 
-
-
 // Handle window resize
 window.onresize = function () {
     var canvasSnow = document.getElementById('canvas_snow');
@@ -157,5 +155,7 @@ window.onresize = function () {
 // Let it snow O(”_”)0
 //startSnow();
 
+
+// ------------------- The Code Below is just For Demostration on JS Libs Lab Website
 var effectMap = effectMap || new Map();
 effectMap.set("Snow", [startSnowEffect, endSnowEffect])

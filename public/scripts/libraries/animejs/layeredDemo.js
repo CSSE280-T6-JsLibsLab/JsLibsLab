@@ -177,5 +177,6 @@ const clearEffectLayered = function () {
     //document.querySelector('body').removeChild(document.querySelector('#layeredEffect'));
 }
 
+// ------------------- The Code Below is just For Demostration on JS Libs Lab Website
 var effectMap = effectMap || new Map();
 effectMap.set("Layered Animation", [startEffectLayered, clearEffectLayered])

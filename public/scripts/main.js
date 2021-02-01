@@ -2,13 +2,14 @@ var rhit = rhit || {};
 
 rhit.DEFAULT_PREVIEW_IMAGE_HTML = "<img id=\"sampleImg\" src=\"https://hatrabbits.com/wp-content/uploads/2017/01/random.jpg\" alt=\"sampleImg\">"
 // TODO: This will be on firestore
-rhit.effects = ["Sphere Animation", "Layered Animation"]; // "Easing Animation", "Layered Animation", "Sphere Animation", "Advanced Staggering"
+//rhit.effects = ["Sphere Animation", "Layered Animation"]; // "Easing Animation", "Layered Animation", "Sphere Animation", "Advanced Staggering"
+rhit.effects = ["Cursor"];
+
 // TODO: Two more demos
 //https://codepen.io/juliangarnier/pen/dwKGoW
 //https://codepen.io/juliangarnier/pen/MZXQNV
-rhit.effect_file_name = ['animejs/anime.min.js', 'animejs/anime.js', 'animejs/anime.es.js', 'animejs/sphereDemo.js', 'animejs/layeredDemo.js'];
-
-
+//rhit.effect_file_name = ['animejs/anime.min.js', 'animejs/anime.js', 'animejs/anime.es.js', 'animejs/sphereDemo.js', 'animejs/layeredDemo.js'];
+rhit.effect_file_name = ['lax/lax.min.js', 'lax/cursorDemo.js'];
 
 function htmlToElement(html) {
 	var template = document.createElement("template");
