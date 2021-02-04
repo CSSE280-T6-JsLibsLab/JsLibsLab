@@ -18,12 +18,11 @@ function htmlToElement(html) {
 	return template.content.firstChild;
 }
 
+/* Preview Page */
 rhit.PreviewPageController = class {
 	constructor() {
 		this.selectedEffect = 0;
 		this.effectEnabled = false;
-		//this.effectMap = getEffectMap();
-		// TODO: Only allow one effect at a time??
 		document.querySelector("#enableListItem").addEventListener("click", (event) => {
 			if (document.querySelector("#enableListItemIcon").innerHTML == "radio_button_checked") {
 				document.querySelector("#enableListItemIcon").innerHTML = "radio_button_unchecked";
@@ -95,24 +94,44 @@ rhit.PreviewPageController = class {
 	}
 }
 
-/* Main */
-/** function and class syntax examples */
-rhit.main = function () {
-	console.log("Ready");
-	//new this.PreviewPageController();
-
-	if (document.querySelector("#loginPage")) {
-		this.startFirebaseUI();
-	}
-	if (document.querySelector("#previewPage")) {
-		for (file_name of rhit.effect_file_name) {
-			const s1 = document.createElement('script');
-			s1['setAttribute']('src', `scripts/libraries/${file_name}`);
-			document.head.appendChild(s1)
+/* User Nav */
+rhit.UserNavController = class {
+	constructor() {
+		document.querySelector("#menuMyAccount").onclick = (event) => {
+			
 		}
-		new rhit.PreviewPageController();
+		document.querySelector("#menuMyFavorites").onclick = (event) => {
+			
+		}
+		document.querySelector("#menuFeaturingLibraries").onclick = (event) => {
+			
+		}
+		document.querySelector("#menuSearch").onclick = (event) => {
+			
+		}
+		document.querySelector("#menuUploadLibraries").onclick = (event) => {
+			
+		}
+		document.querySelector("#menuSignOut").onclick = (event) => {
+			console.log("Sign Out!!!!!!!!!!!!!!!!!");
+			rhit.fbAuthManager.signOut();
+		}
 	}
-};
+}
+
+
+/* Login Page */
+rhit.LoginPageController = class {
+
+	constructor() {
+		document.querySelector("#loginButton").onclick = (params) => {
+			const inputEmailEl = document.querySelector("#inputEmail");
+			const inputPasswordEl = document.querySelector("#inputPassword");
+			rhit.fbAuthManager.signIn(inputEmailEl.value, inputPasswordEl.value);
+		};
+	}
+
+}
 
 rhit.startFirebaseUI = function () {
 	var uiConfig = {
@@ -128,5 +147,154 @@ rhit.startFirebaseUI = function () {
 	const ui = new firebaseui.auth.AuthUI(firebase.auth());
 	ui.start('#firebaseui-auth-container', uiConfig);
 }
+
+rhit.FbAuthManager = class {
+	constructor() {
+		this._user = null;
+	}
+	beginListening(changeListener) {
+		firebase.auth().onAuthStateChanged((user) => {
+			this._user = user;
+			changeListener();
+		});
+	}
+	signIn(email, password) {
+		firebase.auth().signInWithEmailAndPassword(email, password)
+			.then((user) => {
+				// Signed in 
+				// ...
+				console.log("User signed in with email");
+			})
+			.catch((error) => {
+				var errorCode = error.code;
+				var errorMessage = error.message;
+				console.log("Existing account login error", errorCode, errorMessage);
+			});
+		// Rosefire.signIn("<ROSEFIRE KEY>", (err, rfUser) => {
+		// 	if (err) {
+		// 		console.log("Rosefire error!", err);
+		// 		return;
+		// 	}
+		// 	console.log("Rosefire success!", rfUser);
+
+		// 	// Next use the Rosefire token with Firebase auth.
+		// 	firebase.auth().signInWithCustomToken(rfUser.token).catch((error) => {
+		// 		if (error.code === 'auth/invalid-custom-token') {
+		// 			console.log("The token you provided is not valid.");
+		// 		} else {
+		// 			console.log("signInWithCustomToken error", error.message);
+		// 		}
+		// 	}); // Note: Success should be handled by an onAuthStateChanged listener.
+
+		// });
+	}
+	signOut() {
+		firebase.auth().signOut().catch((error) => {
+			// An error happened.
+			console.log("Sign out error");
+		});
+	}
+	get isSignedIn() {
+		return !!this._user;
+	}
+	get uid() {
+		return this._user.uid;
+	}
+}
+
+
+
+
+
+
+
+
+
+
+rhit.checkForRedirects = function () {
+	if (document.querySelector("#loginPage") && rhit.fbAuthManager.isSignedIn) {
+		console.log("You have logged in. redirecting to main page.");
+		window.location.href = "/main.html";
+	}
+	if (!(document.querySelector("#loginPage") || document.querySelector("#indexPage")) && !rhit.fbAuthManager.isSignedIn) {
+		console.log("You are not signed in. redirecting to index page.");
+		window.location.href = "/";
+	}
+};
+
+rhit.initializePage = function () {
+	// if (document.querySelector("#listPage")) {
+	// 	console.log("You are on the list page")
+	// 	const queryString = window.location.search;
+	// 	const urlParams = new URLSearchParams(queryString);
+	// 	const uid = urlParams.get("uid");
+	// 	rhit.fbPhotosManager = new rhit.FbPhotosManager(uid);
+	// 	new rhit.ListPageController();
+	// }
+
+	// if (document.querySelector("#detailPage")) {
+	// 	console.log("You are on the detail page");
+
+	// 	const queryString = window.location.search;
+	// 	console.log('queryString :>> ', queryString);
+	// 	const urlParams = new URLSearchParams(queryString);
+	// 	const photoId = urlParams.get("id");
+	// 	if (!photoId) {
+	// 		window.location.href = "/";
+	// 	}
+	// 	rhit.fbSinglePhotoManager = new rhit.FbSinglePhotoManager(photoId);
+	// 	new rhit.DetailPageController();
+	// }
+
+	if (document.querySelector("#indexPage")) {
+		console.log("You are on the index page")
+		// new rhit.LoginPageController();
+	}
+
+	if (document.querySelector("#loginPage")) {
+		console.log("You are on the login page")
+		this.startFirebaseUI();
+		// new rhit.LoginPageController();
+	}
+
+	if (document.querySelector("#mainPage")) {
+		console.log("You are on the main page")
+		new rhit.UserNavController();
+		// new rhit.LoginPageController();
+	}
+
+	if (document.querySelector("#profilePage")) {
+		console.log("You are on the profile page")
+		new rhit.UserNavController();
+		//new rhit.LoginPageController();
+	}
+
+	if (document.querySelector("#previewPage")) {
+		console.log("You are on the preview page")
+
+		//Initialize external scripts
+		for (file_name of rhit.effect_file_name) {
+			const s1 = document.createElement('script');
+			s1['setAttribute']('src', `scripts/libraries/${file_name}`);
+			document.head.appendChild(s1)
+		}
+		new rhit.PreviewPageController();
+	}
+}
+
+
+
+/* Main */
+/** function and class syntax examples */
+rhit.main = function () {
+	console.log("Ready");
+	rhit.fbAuthManager = new rhit.FbAuthManager();
+	rhit.fbAuthManager.beginListening(() => {
+		console.log("isSignedIn=" + rhit.fbAuthManager.isSignedIn);
+		rhit.checkForRedirects();
+		rhit.initializePage();
+	});
+
+};
 
 rhit.main();
