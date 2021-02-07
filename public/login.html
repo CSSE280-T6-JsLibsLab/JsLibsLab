@@ -14,49 +14,47 @@
 
 <body>
   <div class="bmd-layout-container bmd-drawer-f-l bmd-drawer-overlay">
-    <!-- <header class="bmd-layout-header">
-      <div class="navbar navbar-dark bg-faded fixed-top justify-content-start">
-        <button class="navbar-toggler" type="button" data-toggle="drawer" data-target="#dw-s2">
-          <span class="sr-only">Toggle drawer</span>
-          <i class="material-icons">menu</i>
-        </button>
-        <a class="navbar-brand" href="#">JS LibsLab</a>
-      </div>
-    </header> -->
 
-    <!-- <div id="dw-s2" class="bmd-layout-drawer bg-faded" style="background:url('images/Login_Background.png')">
-    </div> -->
-    <!-- background-image:url('images/bk.png'); -->
-    <main class="bmd-layout-content" style="background-color: #ddd;">
+    <header class="bmd-layout-header fixed-top">
+      <nav id="topNav" class="navbar py-3">
+        <a class="navbar-brand float-left" href="#">JS LibsLab</a>
+        <div class="d-none d-md-block recommend"></div>
+      </nav>
+    </header>
+
+    <main class="bmd-layout-content">
       <div id="loginPage" class="container page-container">
-        <div id="loginNavTitle" class="row justify-content-center">
-          <header>
-            <a class="navbar-brand">Log into JS LibsLab</a>
-          </header>
-        </div>
-        <div class="row justify-content-center">
-          <div class="col-xs-12 col-sm-8">
-            <div class="input-group">
-              <span class="input-group-addon"><span class="fa fa-user"></span></span>
-              <input id="inputEmail" type="text" class="form-control form-color-white" name="username" placeholder="Email">
-            </div>
-            <hr />
-            <div class="input-group">
-              <span class="input-group-addon"><span class="fa fa-key"></span></span>
-              <input id="inputPassword" type="password" class="form-control form-color-white" name="password" placeholder="Password">
-            </div>
-            <hr />
-            <button id="loginButton" class="btn btn-lg btn-outline-primary btn-block"><i
-                class="fa fa-sign-in"></i>
-              Login</button>
+        <div id="loginForm">
+          <div id="loginNavTitle" class="row justify-content-center">
+            <header>
+              <h2>Log into JS LibsLab</h2>
+            </header>
           </div>
-        </div>
-        <div class="">
-          <div class="col-12">
-            <div id="firebaseui-auth-container"></div>
+          <div class="row justify-content-center">
+            <div class="col-xs-12 col-sm-8">
+              <div class="input-group">
+                <span class="input-group-addon"><span class="fa fa-user"></span></span>
+                <input id="inputEmail" type="text" class="form-control form-color-white" name="username"
+                  placeholder="Email">
+              </div>
+              <hr />
+              <div class="input-group">
+                <span class="input-group-addon"><span class="fa fa-key"></span></span>
+                <input id="inputPassword" type="password" class="form-control form-color-white" name="password"
+                  placeholder="Password">
+              </div>
+              <hr />
+              <button id="loginButton" class="btn btn-lg btn-outline-primary btn-block"><i class="fa fa-sign-in"></i>
+                Login</button>
+            </div>
           </div>
-        </div>
 
+          <div class="">
+            <div class="col-12">
+              <div id="firebaseui-auth-container"></div>
+            </div>
+          </div>
+        </div>
       </div>
     </main>
   </div>

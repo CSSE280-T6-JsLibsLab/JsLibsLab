@@ -1,27 +1,40 @@
 body {
-    margin: 0;
-    font-family: "Charlie Text", sans-serif;
-    font-size: 1.25rem;
-    font-weight: 400;
-    line-height: 1.5;
-    color: #172B4D;
-    text-align: left;
-    background: var(--panorama-gold-1);
-    background-image: url('../images/bk.png');
+    transition: 'background'1s ease 0s;
+    background-color: (202,92%,85%);
 }
 
-.bmd-layout-content {
-    margin-top: 75px;
+.btn:not(:disabled):not(.disabled) {
+    cursor: pointer;
+}
+
+#topNav {
+    transition: 'background'1s ease 0s;
+    background-color: var(--panorama-gold-4);
+}
+
+#topNav>a {
+    color: white;
 }
 
 .row {
     margin: 0;
 }
 
+#loginForm {
+    /* background-color: var(--panorama-gold-4); */
+    box-shadow: 0 0 8px 8px rgba(196, 196, 196, 0.445); 
+    background-color: rgb(253, 253, 253);
+    max-width: 400px;
+    margin: 0 auto;
+    position: relative;
+    display: block;
+    min-height: 100vh;
+}
+
 #loginNavTitle {
-    color: snow;
-    margin-top: 25px;
-    margin-bottom: 50px;
+    color: var(--black-gold-5);
+    padding-bottom: 50px;
+    padding-top:120px;
 }
 
 .kpx_login .kpx_authTitle {
@@ -33,48 +46,19 @@ body {
     width: 2em;
 }
 
-.kpx_login .kpx_loginForm .help-block {
-    color: red;
-}
 
-.bmd-layout-content {  
-    height: 100vh;
-}
 
 .form-color-white {
-    color: white;
+    color: var(--black-gold-5);
 }
 .form-color-white:focus {
-    color: white;
+    color: var(--black-gold-5);
 }
 .form-color-white::placeholder {
-    color: silver;
+    color: gray;
 }
 #loginButton {
-    color: snow;
-    border-color: snow;
+    background-color: var(--black-gold-5);
+    color: var(--black-gold-2);
 }
 
-.bmd-drawer-f-l>.bmd-layout-drawer {
-    width: 360px;
-    transform: translateX(-360px);
-}
-
-
-/* background-color: #DBD288; */
-
-
-/* On smaller screens, where height is less than 450px, change the style of the sidenav (less padding and a smaller font size)
-@media screen and (max-height: 450px) {
-    .sidenav {
-        padding-top: 15px;
-    }
-
-    .sidenav a {
-        font-size: 18px;
-    }
-} */
-
-.btn:not(:disabled):not(.disabled) {
-    cursor: pointer;
-}
