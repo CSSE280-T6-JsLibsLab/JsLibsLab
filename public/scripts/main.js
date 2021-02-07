@@ -69,8 +69,8 @@ rhit.PreviewPageController = class {
 		this.effectEnabled = false;
 
 		rhit.fbSingleScriptManager.beginListening(this.updateView.bind(this));
-		
-		
+
+
 
 		document.querySelector("#refreshListItem").addEventListener("click", (event) => {
 			window.location.reload();
@@ -90,7 +90,7 @@ rhit.PreviewPageController = class {
 			}
 		})
 
-		
+
 	}
 
 	updateView() {
@@ -172,6 +172,75 @@ rhit.IndexPageController = class {
 		document.querySelector("#getStartedButton").onclick = (event) => {
 			window.location.href = "/login.html";
 		}
+
+		var textWrapper = document.querySelector('.ml9 .letters');
+		textWrapper.innerHTML = textWrapper.textContent.replace(/\S/g, "<span class='letter'>$&</span>");
+
+		anime.timeline({
+				loop: true
+			})
+			.add({
+				targets: '.ml9 .letter',
+				scale: [0, 1],
+				duration: 1500,
+				elasticity: 600,
+				delay: (el, i) => 45 * (i + 1)
+			}).add({
+				targets: '.ml9',
+				opacity: 0,
+				duration: 1000,
+				easing: "easeOutExpo",
+				delay: 1000
+			});
+
+		const path = anime.path('#path');
+		const timeline = anime.timeline({
+			easing: 'easeInOutExpo',
+			duration: 1000,
+			complete: () => {
+				anime({
+					targets: '.leaf',
+					rotate: 40,
+					duration: 3000,
+					loop: true,
+					direction: 'alternate',
+					easing: 'easeInOutQuad'
+				});
+				anime({
+					targets: '.petals',
+					scale: 1.05,
+					duration: 6000,
+					loop: true,
+					direction: 'alternate',
+					easing: 'easeInOutQuad'
+				});
+			}
+		});
+		timeline.add({
+			targets: '.stem',
+			scale: [0, 1],
+		})
+		timeline.add({
+			targets: '.leaf',
+			rotate: [0, 45],
+		})
+		timeline.add({
+			targets: '.petals',
+			scale: [0, 1],
+		}, '-=1000');
+		timeline.add({
+			targets: '#bee',
+			opacity: [0, 1],
+		}, '-=750');
+		anime({
+			targets: '#bee',
+			translateX: path('x'),
+			translateY: path('y'),
+			rotate: path('angle'),
+			loop: true,
+			duration: 12500,
+			easing: 'linear'
+		});
 	}
 }
 
@@ -375,9 +444,9 @@ rhit.FbScriptsManager = class {
 
 	getScriptAtIndex(index) {
 		const docSnapshot = this._documentSnapshots[index];
-		const script = new rhit.Script(docSnapshot.id, docSnapshot.get(rhit.FB_KEY_SCRIPT_NAME), docSnapshot.get(rhit.FB_KEY_SCRIPT_PHOTOURL), 
-		docSnapshot.get(rhit.FB_KEY_SCRIPT_DESCRIPTION), docSnapshot.get(rhit.FB_KEY_SCRIPT_FILEPATH), docSnapshot.get(rhit.FB_KEY_SCRIPT_EFFECTS), 
-		docSnapshot.get(rhit.FB_KEY_SCRIPT_VIEWTIMES));
+		const script = new rhit.Script(docSnapshot.id, docSnapshot.get(rhit.FB_KEY_SCRIPT_NAME), docSnapshot.get(rhit.FB_KEY_SCRIPT_PHOTOURL),
+			docSnapshot.get(rhit.FB_KEY_SCRIPT_DESCRIPTION), docSnapshot.get(rhit.FB_KEY_SCRIPT_FILEPATH), docSnapshot.get(rhit.FB_KEY_SCRIPT_EFFECTS),
+			docSnapshot.get(rhit.FB_KEY_SCRIPT_VIEWTIMES));
 		return script;
 	}
 }
@@ -409,7 +478,7 @@ rhit.FbUserManager = class {
 	get name() {
 		return this._documentSnapshot.get(rhit.FB_KEY_USER_NAME);
 	}
-	
+
 	get photoUrl() {
 		return this._documentSnapshot.get(rhit.FB_KEY_USER_PHOTOURL);
 	}
@@ -428,7 +497,7 @@ rhit.FbUserManager = class {
 }
 
 rhit.Script = class {
-	constructor(id, name, photoUrl, description, filePath, effects, viewTimes){
+	constructor(id, name, photoUrl, description, filePath, effects, viewTimes) {
 		this.id = id;
 		this.name = name;
 		this.photoUrl = photoUrl;
@@ -511,7 +580,7 @@ rhit.initializePage = function () {
 		const id = urlParam.get("id");
 		rhit.fbSingleScriptManager = new rhit.FbSingleScriptManager(id);
 		//Initialize external scripts
-		
+
 		new rhit.PreviewPageController();
 	}
 }
