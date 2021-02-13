@@ -1,0 +1,67 @@
+body {
+    background: #fff;
+}
+
+.navbar {
+    background-color: #DBD288;
+}
+
+.page-container {
+    margin-top: 75px;
+}
+
+#columns {
+    column-count: 1;
+    column-gap: 0px;
+    height: 200vh;
+}
+
+@media (min-width: 512px) {
+    #columns {
+        column-count: 2;
+        column-gap: 2px;
+    }
+}
+
+@media (min-width: 768px) {
+    #columns {
+        column-count: 3;
+        column-gap: 5px;
+    }
+}
+
+@media (min-width: 992px) {
+    #columns {
+        column-count: 4;
+        column-gap: 10px;
+    }
+}
+
+#columns .card {
+    display: inline-block;
+    box-shadow: 0 1px 2px rgba(34, 25, 25, 0.4);
+    margin: 0 2px 15px;
+    padding: 10px;
+    padding-bottom: 5px;
+    background: linear-gradient(45deg, #FFF, #EEE);
+    transition: all .2s ease;
+    height: 350;
+    width: 100%;
+    /* justify-content: center; */
+}
+
+.cardIcon {
+    padding: 20px 8px;
+}
+
+.card-img-top {
+    max-width: 90%;
+    max-height: 38.2%;
+}
+
+.card-text {
+    white-space: nowrap;
+    overflow: hidden;
+    /* display: block; */
+    text-overflow: ellipsis;
+}

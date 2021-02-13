@@ -44,16 +44,13 @@ rhit.UserNavController = class {
 			window.location.href = `/profile.html?uid=${rhit.fbAuthManager.uid}`;
 		}
 		document.querySelector("#menuMyFavorites").onclick = (event) => {
-
+			window.location.href = `/favorites.html?uid=${rhit.fbAuthManager.uid}`;
 		}
 		document.querySelector("#menuFeaturingLibraries").onclick = (event) => {
-
-		}
-		document.querySelector("#menuSearch").onclick = (event) => {
-
+			window.location.href = "/main.html";
 		}
 		document.querySelector("#menuUploadLibraries").onclick = (event) => {
-
+			window.location.href = "/upload.html";
 		}
 		document.querySelector("#menuSignOut").onclick = (event) => {
 			console.log("Sign Out!!!!!!!!!!!!!!!!!");
@@ -61,6 +58,20 @@ rhit.UserNavController = class {
 		}
 	}
 }
+
+/* Upload Page */
+rhit.UploadPageController = class {
+	constructor() {
+		// TODO: Finish this
+	}
+}
+
+/* Favorites Page */
+rhit.FavoritesPageController = class {
+	constructor() {
+		// TODO: Read from User favorites and create cards
+	}
+} 
 
 /* Preview Page */
 rhit.PreviewPageController = class {
@@ -70,8 +81,6 @@ rhit.PreviewPageController = class {
 		this.effectEnabled = false;
 
 		rhit.fbSingleScriptManager.beginListening(this.updateView.bind(this));
-
-
 
 		document.querySelector("#refreshListItem").addEventListener("click", (event) => {
 			window.location.reload();
@@ -90,8 +99,6 @@ rhit.PreviewPageController = class {
 				document.querySelector("#manageListItemIcon").innerHTML = "expand_less";
 			}
 		})
-
-
 	}
 
 	updateView() {
@@ -115,6 +122,8 @@ rhit.PreviewPageController = class {
 		}
 
 		this.updateEffectList();
+		rhit.fbSingleScriptManager.stopListening();
+		rhit.fbSingleScriptManager.addViewTimes();
 	}
 
 	resetElements() {
@@ -372,7 +381,16 @@ rhit.ProfilePageController = class {
 
 rhit.MainPageController = class {
 	constructor() {
-		rhit.fbScriptsManager.beginListening(this.updateView.bind(this));
+		rhit.fbScriptsManager.beginListening(this.updateView.bind(this), null);
+
+		document.querySelector("#searchButton").onclick = (event) => {
+			rhit.fbScriptsManager.beginListening(this.updateView.bind(this), document.querySelector("#searchInput").value);
+		}
+
+		document.querySelector("#clearSearchButton").onclick = (event) => {
+			document.querySelector("#searchInput").value = ""
+			rhit.fbScriptsManager.beginListening(this.updateView.bind(this), null);
+		}
 	}
 
 	updateView() {
@@ -399,8 +417,8 @@ rhit.MainPageController = class {
 			};
 			document.querySelector(`#favorite_${script.id}`).onclick = (event) => {
 				console.log("Favorite");
-				// TODO:
-				
+				// TODO: Change Icon when favorited
+				// TODO: Favorite this script
 			};
 		}
 	}
@@ -411,6 +429,7 @@ rhit.MainPageController = class {
 								<div class="card-body">
 		  							<h5 class="card-title">${script.name}</h5>
 		  							<p class="card-text">${script.description}</p>
+									<p class="card-text">View Times: ${script.viewTimes}</p>
 									<a id="preview_${script.id}" class="btn btn-primary cardIcon"><i class="material-icons">remove_red_eye</i></a>
 									<a id="source_${script.id}" class="btn btn-primary cardIcon"><i class="material-icons">public</i></a>
 									<a id="favorite_${script.id}" class="btn btn-primary cardIcon"><i class="material-icons">star_border</i></a>
@@ -521,6 +540,18 @@ rhit.FbSingleScriptManager = class {
 		this._unsubscribe();
 	}
 
+	addViewTimes() {
+		this._ref.update({
+			[rhit.FB_KEY_SCRIPT_VIEWTIMES]: this.viewTimes + 1,
+		})
+		.then(() => {
+			console.log("Document written");
+		})
+		.catch(function (error) {
+			console.error("Error updating document: ", error);
+		})
+	}
+
 	get name() {
 		return this._documentSnapshot.get(rhit.FB_KEY_SCRIPT_NAME);
 	}
@@ -557,9 +588,16 @@ rhit.FbScriptsManager = class {
 		this._unsubscribe = null;
 	}
 
-	beginListening(changeListener) {
-		// TODO: Order by view times
-		this._unsubscribe = this._ref.limit(50).onSnapshot((querySnapshot) => {
+	beginListening(changeListener, searchKeyword) {
+		if(this._unsubscribe) {
+			this.stopListening();
+		}
+		let query = this._ref.limit(50).orderBy(rhit.FB_KEY_SCRIPT_VIEWTIMES, "desc")
+		// TODO: A Real Search
+		if(searchKeyword){
+			query = query.where(rhit.FB_KEY_SCRIPT_NAME, '==', searchKeyword)
+		}
+		this._unsubscribe = query.onSnapshot((querySnapshot) => {
 			this._documentSnapshots = querySnapshot.docs;
 			changeListener();
 		})
@@ -670,6 +708,14 @@ rhit.initializePage = function () {
 		new rhit.LoginPageController();
 	}
 
+	if (document.querySelector("#favoritesPage")) {
+		console.log("You are on the fav page");
+		const uid = urlParam.get("uid");
+		// TODO: Create fbSingleUserManager
+		new rhit.UserNavController();
+		new rhit.FavoritesPageController();
+	}
+
 	if (document.querySelector("#mainPage")) {
 		console.log("You are on the main page");
 		rhit.fbScriptsManager = new rhit.FbScriptsManager();
@@ -692,6 +738,11 @@ rhit.initializePage = function () {
 		//Initialize external scripts
 
 		new rhit.PreviewPageController();
+	}
+
+	if (document.querySelector("#uploadPage")) {
+		new rhit.UserNavController();
+		new rhit.UploadPageController();
 	}
 }
 
