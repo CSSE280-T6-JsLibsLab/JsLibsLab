@@ -12,6 +12,7 @@ rhit.FB_KEY_SCRIPT_PHOTOURL = "photoUrl";
 rhit.FB_KEY_SCRIPT_EFFECTS = "effects";
 rhit.FB_KEY_SCRIPT_FILEPATH = "filePath";
 rhit.FB_KEY_SCRIPT_VIEWTIMES = "viewTimes";
+rhit.FB_KEY_SCRIPT_SOURCE = "source";
 
 rhit.fbUserManager = null;
 rhit.fbScriptsManager = null;
@@ -163,6 +164,120 @@ rhit.LoginPageController = class {
 			const inputPasswordEl = document.querySelector("#inputPassword");
 			rhit.fbAuthManager.signIn(inputEmailEl.value, inputPasswordEl.value);
 		};
+		let fireNodes1 = document.querySelectorAll("#fireNodes1 .cf-flame");
+		let fireNodes2 = document.querySelectorAll("#fireNodes2 .cf-flame");
+		let fireNodes3 = document.querySelectorAll("#fireNodes1 .cf-flame");
+		let baseFire = document.querySelectorAll("#base-fire .cf-flame");
+
+		function animateBaseFire() {
+			anime({
+				targets: baseFire,
+				delay: anime.stagger(300),
+				translateY: function () {
+					return anime.random(0, -10);
+				},
+				keyframes: [{
+						scale: .8
+					},
+					{
+						scale: .825
+					},
+					{
+						scale: .9
+					},
+					{
+						scale: .925
+					},
+					{
+						scale: 1
+					}
+				],
+				duration: 300,
+				easing: 'easeInOutSine',
+				loop: true,
+			})
+		}
+
+		function animateFlame1() {
+			anime({
+				targets: fireNodes1,
+				delay: anime.stagger(100),
+				translateY: function () {
+					return anime.random(0, 300);
+				},
+				rotate: 30,
+				opacity: function () {
+					return anime.random(.5, 1);
+				},
+				translateX: function () {
+					return anime.random(0, -60);
+				},
+				scale: 0,
+				skew: function () {
+					return anime.random(0, 10);
+				},
+				loop: true,
+				easing: "easeInOutSine",
+			})
+		}
+
+		function animateFlame2() {
+			anime({
+				targets: fireNodes2,
+				delay: anime.stagger(400),
+				translateX: function () {
+					return anime.random(-30, 0);
+				},
+				translateY: function () {
+					return anime.random(0, -260);
+				},
+				translateY: function () {
+					return anime.random(-260, -160);
+				},
+				translateX: function () {
+					return anime.random(0, -30);
+				},
+				scale: 0,
+				rotate: function () {
+					return anime.random(0, 60);
+				},
+				skew: function () {
+					return anime.random(0, 30);
+				},
+				loop: true,
+				easing: "easeInOutSine"
+			})
+		}
+
+		function animateFlame3() {
+			anime({
+				targets: fireNodes3,
+				delay: anime.stagger(500),
+				translateY: function () {
+					return anime.random(-300, -200);
+				},
+				opacity: function () {
+					return anime.random(0, 1);
+				},
+				translateX: function () {
+					return anime.random(-50, 50);
+				},
+				scale: 0,
+				rotate: function () {
+					return anime.random(0, -30);
+				},
+				skew: function () {
+					return anime.random(0, 20);
+				},
+				loop: true,
+				easing: "easeInOutSine",
+			})
+		}
+
+		animateFlame1();
+		animateFlame2();
+		animateFlame3();
+		animateBaseFire();
 	}
 }
 
@@ -265,9 +380,6 @@ rhit.MainPageController = class {
 		for (let i = 0; i < rhit.fbScriptsManager.length; i++) {
 			const script = rhit.fbScriptsManager.getScriptAtIndex(i);
 			const newCard = this.createCard(script);
-
-			// TODO: LINKS
-
 			newList.appendChild(newCard);
 		}
 
@@ -276,6 +388,21 @@ rhit.MainPageController = class {
 		oldList.hidden = true;
 		oldList.parentElement.append(newList);
 		oldList.remove();
+
+		for (let i = 0; i < rhit.fbScriptsManager.length; i++) {
+			const script = rhit.fbScriptsManager.getScriptAtIndex(i);
+			document.querySelector(`#preview_${script.id}`).onclick = (event) => {
+				window.open(`/preview.html?id=${script.id}`);
+			};
+			document.querySelector(`#source_${script.id}`).onclick = (event) => {
+				window.open(script.source);
+			};
+			document.querySelector(`#favorite_${script.id}`).onclick = (event) => {
+				console.log("Favorite");
+				// TODO:
+				
+			};
+		}
 	}
 
 	createCard(script) {
@@ -284,9 +411,9 @@ rhit.MainPageController = class {
 								<div class="card-body">
 		  							<h5 class="card-title">${script.name}</h5>
 		  							<p class="card-text">${script.description}</p>
-									<a href="#" class="btn btn-primary cardIcon"><i class="material-icons">remove_red_eye</i></a>
-									<a href="#" class="btn btn-primary cardIcon"><i class="material-icons">public</i></a>
-									<a href="#" class="btn btn-primary cardIcon"><i class="material-icons">star_border</i></a>
+									<a id="preview_${script.id}" class="btn btn-primary cardIcon"><i class="material-icons">remove_red_eye</i></a>
+									<a id="source_${script.id}" class="btn btn-primary cardIcon"><i class="material-icons">public</i></a>
+									<a id="favorite_${script.id}" class="btn btn-primary cardIcon"><i class="material-icons">star_border</i></a>
 								</div>
 	  						</div>`);
 	}
@@ -417,6 +544,10 @@ rhit.FbSingleScriptManager = class {
 	get viewTimes() {
 		return this._documentSnapshot.get(rhit.FB_KEY_SCRIPT_VIEWTIMES);
 	}
+
+	get source() {
+		return this._documentSnapshot.get(rhit.FB_KEY_SCRIPT_SOURCE);
+	}
 }
 
 rhit.FbScriptsManager = class {
@@ -446,7 +577,7 @@ rhit.FbScriptsManager = class {
 		const docSnapshot = this._documentSnapshots[index];
 		const script = new rhit.Script(docSnapshot.id, docSnapshot.get(rhit.FB_KEY_SCRIPT_NAME), docSnapshot.get(rhit.FB_KEY_SCRIPT_PHOTOURL),
 			docSnapshot.get(rhit.FB_KEY_SCRIPT_DESCRIPTION), docSnapshot.get(rhit.FB_KEY_SCRIPT_FILEPATH), docSnapshot.get(rhit.FB_KEY_SCRIPT_EFFECTS),
-			docSnapshot.get(rhit.FB_KEY_SCRIPT_VIEWTIMES));
+			docSnapshot.get(rhit.FB_KEY_SCRIPT_VIEWTIMES), docSnapshot.get(rhit.FB_KEY_SCRIPT_SOURCE));
 		return script;
 	}
 }
@@ -497,7 +628,7 @@ rhit.FbUserManager = class {
 }
 
 rhit.Script = class {
-	constructor(id, name, photoUrl, description, filePath, effects, viewTimes) {
+	constructor(id, name, photoUrl, description, filePath, effects, viewTimes, source) {
 		this.id = id;
 		this.name = name;
 		this.photoUrl = photoUrl;
@@ -505,6 +636,7 @@ rhit.Script = class {
 		this.filePath = filePath;
 		this.effects = effects;
 		this.viewTimes = viewTimes;
+		this.source = source;
 	}
 }
 
@@ -526,28 +658,6 @@ rhit.checkForRedirects = function () {
 rhit.initializePage = function () {
 
 	const urlParam = new URLSearchParams(window.location.search);
-	// if (document.querySelector("#listPage")) {
-	// 	console.log("You are on the list page")
-	// 	const queryString = window.location.search;
-	// 	const urlParams = new URLSearchParams(queryString);
-	// 	const uid = urlParams.get("uid");
-	// 	rhit.fbPhotosManager = new rhit.FbPhotosManager(uid);
-	// 	new rhit.ListPageController();
-	// }
-
-	// if (document.querySelector("#detailPage")) {
-	// 	console.log("You are on the detail page");
-
-	// 	const queryString = window.location.search;
-	// 	console.log('queryString :>> ', queryString);
-	// 	const urlParams = new URLSearchParams(queryString);
-	// 	const photoId = urlParams.get("id");
-	// 	if (!photoId) {
-	// 		window.location.href = "/";
-	// 	}
-	// 	rhit.fbSinglePhotoManager = new rhit.FbSinglePhotoManager(photoId);
-	// 	new rhit.DetailPageController();
-	// }
 
 	if (document.querySelector("#indexPage")) {
 		console.log("You are on the index page")

@@ -24,6 +24,38 @@
 
     <main class="bmd-layout-content">
       <div id="loginPage" class="container page-container">
+        <div id="loginBgEffect">
+          <div class="cf-container">
+            <div class="cf-flame-container" id="fireNodes1">
+              <div class="cf-flame"></div>
+              <div class="cf-flame"></div>
+              <div class="cf-flame"></div>
+              <div class="cf-flame"></div>
+              <div class="cf-flame"></div>
+              <div class="cf-flame"></div>
+              <div class="cf-flame"></div>
+            </div>
+            <div class="cf-flame-container" id="fireNodes2">
+              <div class="cf-flame"></div>
+              <div class="cf-flame"></div>
+              <div class="cf-flame"></div>
+              <div class="cf-flame"></div>
+              <div class="cf-flame"></div>
+              <div class="cf-flame"></div>
+              <div class="cf-flame"></div>
+            </div>
+            <div class="cf-flame-container" id="base-fire">
+              <div class="cf-flame"></div>
+              <div class="cf-flame"></div>
+              <div class="cf-flame"></div>
+            </div>
+            <div class="cf-log-container">
+              <div class="cf-log"></div>
+              <div class="cf-log"></div>
+            </div>
+          </div>
+        </div>
+
         <div id="loginForm">
           <div id="loginNavTitle" class="row justify-content-center">
             <header>
@@ -72,6 +104,9 @@
   <script src="https://www.gstatic.com/firebasejs/ui/4.7.1/firebase-ui-auth.js"></script>
   <script src="/__/firebase/init.js"></script>
   <script src="scripts/main.js"></script>
+  <script src="scripts/libraries/animejs/anime.es.js"></script>
+  <script src="scripts/libraries/animejs/anime.js"></script>
+  <script src="scripts/libraries/animejs/anime.min.js"></script>
   <!-- <script>
     $(function () {
       $('[data-toggle="tooltip"]').tooltip()

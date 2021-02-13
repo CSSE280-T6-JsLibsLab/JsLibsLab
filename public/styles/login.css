@@ -1,6 +1,6 @@
 body {
     transition: 'background'1s ease 0s;
-    background-color: (202,92%,85%);
+    background-color: #fff8a9b4;
 }
 
 .btn:not(:disabled):not(.disabled) {
@@ -22,7 +22,7 @@ body {
 
 #loginForm {
     /* background-color: var(--panorama-gold-4); */
-    box-shadow: 0 0 8px 8px rgba(196, 196, 196, 0.445); 
+    box-shadow: 0 0 8px 8px rgba(196, 196, 196, 0.445);
     background-color: rgb(253, 253, 253);
     max-width: 400px;
     margin: 0 auto;
@@ -34,7 +34,7 @@ body {
 #loginNavTitle {
     color: var(--black-gold-5);
     padding-bottom: 50px;
-    padding-top:120px;
+    padding-top: 120px;
 }
 
 .kpx_login .kpx_authTitle {
@@ -51,14 +51,183 @@ body {
 .form-color-white {
     color: var(--black-gold-5);
 }
+
 .form-color-white:focus {
     color: var(--black-gold-5);
 }
+
 .form-color-white::placeholder {
     color: gray;
 }
+
 #loginButton {
     background-color: var(--black-gold-5);
     color: var(--black-gold-2);
 }
 
+
+/* Campfire animation */
+@media (max-width: 576px) {
+    #loginBgEffect {
+        display: none;
+    }
+}
+
+.cf-container {
+    box-sizing: content-box;
+    width: 300px;
+    height: 300px;
+    position: absolute;
+    top: 70%;
+    left: 15%;
+    transform: translate(-50%, -50%);
+}
+
+.cf-container .cf-flame-container {
+    width: 100px;
+    height: 100px;
+    bottom: 0px;
+    position: absolute;
+}
+
+.cf-container .cf-log-container {
+    width: 60%;
+    height: 100px;
+    position: absolute;
+    bottom: 0px;
+    left: 50px;
+}
+
+.cf-container .cf-flame-container#base-fire .cf-flame:nth-child(1) {
+    background: #c63509;
+    opacity: 0.95;
+}
+
+.cf-container .cf-flame-container#base-fire .cf-flame:nth-child(2) {
+    background: #cd4015;
+    width: 100px;
+    height: 100px;
+    opacity: 0.85;
+    left: 75px;
+}
+
+.cf-container .cf-flame-container#base-fire .cf-flame:nth-child(3) {
+    background: #d73e0f;
+    width: 60px;
+    height: 60px;
+    opacity: 0.85;
+    left: 130px;
+}
+
+.cf-container .cf-flame-container:nth-child(2) {
+    width: 150px;
+    height: 150px;
+    bottom: 0px;
+    position: absolute;
+}
+
+.cf-container .cf-flame-container:nth-child(2) .cf-flame {
+    width: 75px;
+    height: 75px;
+    left: 75px;
+}
+
+.cf-log {
+    background: #723830;
+    width: 20px;
+    height: 30px;
+    transform-origin: center;
+    position: absolute;
+    bottom: 0px;
+    border-radius: 0.5em;
+    box-shadow: 0 3px 10px #372113;
+    width: 100%;
+}
+
+.cf-log:nth-child(1) {
+    transform: rotate(15deg);
+}
+
+.cf-log:nth-child(2) {
+    transform: rotate(-15deg);
+}
+
+.cf-flame:nth-child(1) {
+    background: #f5ed8f;
+}
+
+.cf-flame:nth-child(2) {
+    background: #fde239;
+}
+
+.cf-flame:nth-child(3) {
+    background: #ffdc01;
+}
+
+.cf-flame:nth-child(4) {
+    background: #fdac01;
+}
+
+.cf-flame:nth-child(5) {
+    background: #d73e0f;
+}
+
+.cf-flame:nth-child(6) {
+    background: #cd4015;
+}
+
+.cf-flame:nth-child(7) {
+    background: #c63509;
+}
+
+.cf-flame:last-child {
+    background: #c63509;
+}
+
+.cf-flame {
+    background: #cd4015;
+    width: 100px;
+    height: 100px;
+    border-radius: 1em;
+    position: absolute;
+    bottom: 0px;
+    left: 100px;
+}
+
+#fireNodes2 .cf-flame {
+    animation: flameColor 1.5s ease-out infinite;
+}
+
+@keyframes flameColor {
+    0% {
+        background: #c63509;
+    }
+
+    20% {
+        background: #cd4015;
+    }
+
+    30% {
+        background: #fdac01;
+    }
+
+    50% {
+        background: #ffb401;
+    }
+
+    60% {
+        background: #fdac01;
+    }
+
+    70% {
+        background: #ffdc01;
+    }
+
+    80% {
+        background: #fde239;
+    }
+
+    100% {
+        background: #f5ed8f;
+    }
+}
