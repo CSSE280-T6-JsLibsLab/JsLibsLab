@@ -19,15 +19,13 @@ rhit.fbScriptsManager = null;
 rhit.fbSingleScriptManager = null;
 rhit.fbAuthManager = null;
 
-// TODO: This will be on firestore
 //rhit.effects = ["Sphere Animation", "Layered Animation"]; // "Easing Animation", "Layered Animation", "Sphere Animation", "Advanced Staggering"
-rhit.effects = ["Cursor"];
+rhit.effects = [];
 
 // TODO: Two more demos
 //https://codepen.io/juliangarnier/pen/dwKGoW
 //https://codepen.io/juliangarnier/pen/MZXQNV
-//rhit.effect_file_name = ['animejs/anime.min.js', 'animejs/anime.js', 'animejs/anime.es.js', 'animejs/sphereDemo.js', 'animejs/layeredDemo.js'];
-rhit.effect_file_name = ['lax/lax.min.js', 'lax/cursorDemo.js'];
+rhit.effect_file_name = [];
 
 function htmlToElement(html) {
 	var template = document.createElement("template");
@@ -53,7 +51,6 @@ rhit.UserNavController = class {
 			window.location.href = "/upload.html";
 		}
 		document.querySelector("#menuSignOut").onclick = (event) => {
-			console.log("Sign Out!!!!!!!!!!!!!!!!!");
 			rhit.fbAuthManager.signOut();
 		}
 	}
@@ -71,7 +68,7 @@ rhit.FavoritesPageController = class {
 	constructor() {
 		// TODO: Read from User favorites and create cards
 	}
-} 
+}
 
 /* Preview Page */
 rhit.PreviewPageController = class {
@@ -394,7 +391,7 @@ rhit.MainPageController = class {
 	}
 
 	updateView() {
-		const newList = htmlToElement(`<div id="columns"></div>`);
+		const newList = htmlToElement(`<div id="columns" class="row justify-content-start space-evenly"></div>`);
 		for (let i = 0; i < rhit.fbScriptsManager.length; i++) {
 			const script = rhit.fbScriptsManager.getScriptAtIndex(i);
 			const newCard = this.createCard(script);
@@ -424,18 +421,26 @@ rhit.MainPageController = class {
 	}
 
 	createCard(script) {
-		return htmlToElement(`<div class="card" id="${script.id}">
+		return htmlToElement(`<div class="col-xs-12 col-sm-6 col-md-4 col-lg-3 card" id="${script.id}">
 								<img class="card-img-top" src="${script.photoUrl}" alt="Script Photo">
 								<div class="card-body">
 		  							<h5 class="card-title">${script.name}</h5>
-		  							<p class="card-text">${script.description}</p>
-									<p class="card-text">View Times: ${script.viewTimes}</p>
-									<a id="preview_${script.id}" class="btn btn-primary cardIcon"><i class="material-icons">remove_red_eye</i></a>
-									<a id="source_${script.id}" class="btn btn-primary cardIcon"><i class="material-icons">public</i></a>
-									<a id="favorite_${script.id}" class="btn btn-primary cardIcon"><i class="material-icons">star_border</i></a>
+		  							<p class="truncate-overflow">${script.description}</p>
+									<p>View Times: ${script.viewTimes}</p>
+									<div class="row justify-content-center">
+									<div class="col-4">
+										<a id="preview_${script.id}" class="btn btn-primary cardIcon"><i class="material-icons">remove_red_eye</i></a>
+									</div>
+									<div class="col-4">
+										<a id="source_${script.id}" class="btn btn-primary cardIcon"><i class="material-icons">public</i></a>
+									</div>
+									<div class="col-4">
+										<a id="favorite_${script.id}" class="btn btn-primary cardIcon"><i class="material-icons">star_border</i></a>
+									</div>
 								</div>
 	  						</div>`);
 	}
+
 }
 
 rhit.startFirebaseUI = function () {
@@ -542,14 +547,14 @@ rhit.FbSingleScriptManager = class {
 
 	addViewTimes() {
 		this._ref.update({
-			[rhit.FB_KEY_SCRIPT_VIEWTIMES]: this.viewTimes + 1,
-		})
-		.then(() => {
-			console.log("Document written");
-		})
-		.catch(function (error) {
-			console.error("Error updating document: ", error);
-		})
+				[rhit.FB_KEY_SCRIPT_VIEWTIMES]: this.viewTimes + 1,
+			})
+			.then(() => {
+				console.log("Document written");
+			})
+			.catch(function (error) {
+				console.error("Error updating document: ", error);
+			})
 	}
 
 	get name() {
@@ -589,12 +594,12 @@ rhit.FbScriptsManager = class {
 	}
 
 	beginListening(changeListener, searchKeyword) {
-		if(this._unsubscribe) {
+		if (this._unsubscribe) {
 			this.stopListening();
 		}
 		let query = this._ref.limit(50).orderBy(rhit.FB_KEY_SCRIPT_VIEWTIMES, "desc")
 		// TODO: A Real Search
-		if(searchKeyword){
+		if (searchKeyword) {
 			query = query.where(rhit.FB_KEY_SCRIPT_NAME, '==', searchKeyword)
 		}
 		this._unsubscribe = query.onSnapshot((querySnapshot) => {
