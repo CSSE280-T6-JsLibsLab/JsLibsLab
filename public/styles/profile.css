@@ -1,0 +1,21 @@
+body {
+    background: #fff;
+}
+
+.navbar {
+    background-color: #DBD288;
+}
+
+.page-container {
+    margin-top: 75px;
+}
+
+#profilePhoto {
+    width: 128px;
+    height: 128px;
+    display: block;
+    /* position: fixed;
+    top: 30px;
+    left: 20px; */
+    border-radius: 50%;
+}

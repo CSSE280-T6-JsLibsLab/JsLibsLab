@@ -6,7 +6,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
   <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700|Material+Icons">
   <link rel="stylesheet" href="styles/bootstrap-material-design.min.css">
-  <link rel="stylesheet" href="styles/main.css">
+  <link rel="stylesheet" href="styles/profile.css">
   <link rel="stylesheet" href="styles/usernav.css">
   <link rel="stylesheet" href="styles/color.css">
   <title>Your Profile</title>
@@ -43,18 +43,51 @@
       </ul>
     </div>
 
-  <script src="scripts/jquery.min.js"></script>
-  <script src="scripts/popper.js"></script>
-  <script src="scripts/bootstrap-material-design.js"></script>
-  <script>
-    $("body").bootstrapMaterialDesign();
-  </script>
-  <script src="/__/firebase/7.18.0/firebase-app.js"></script>
-  <script src="/__/firebase/7.18.0/firebase-analytics.js"></script>
-  <script src="/__/firebase/7.18.0/firebase-auth.js"></script>
-  <script src="/__/firebase/7.18.0/firebase-firestore.js"></script>
-  <script src="/__/firebase/init.js"></script>
-  <script src="scripts/main.js"></script>
+    <main class="bmd-layout-content">
+      <div id="profilePage" class="container page-container">
+        <img id="profilePhoto" src="images/avatar.png" alt="ImageIcon">
+        <h2 id="profileName">Your Name</h2>
+        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#updateNameModal">Update Name</button>
+        <h2 id="profileLibrariesFavorited">0</h2>
+      </div>
+    </main>
+
+    <div class="modal fade" id="updateNameModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+      aria-hidden="true">
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title">Enter Your New Name</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="modal-body">
+            <div class="form-group">
+              <label for="nameTextField" class="col-form-label">Name:</label>
+              <input class="form-control" id="nameTextField"></input>
+            </div>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+            <button id="submitUpdateNameButton" type="button" class="btn btn-primary" data-dismiss="modal">Update</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <script src="scripts/jquery.min.js"></script>
+    <script src="scripts/popper.js"></script>
+    <script src="scripts/bootstrap-material-design.js"></script>
+    <script>
+      $("body").bootstrapMaterialDesign();
+    </script>
+    <script src="/__/firebase/7.18.0/firebase-app.js"></script>
+    <script src="/__/firebase/7.18.0/firebase-analytics.js"></script>
+    <script src="/__/firebase/7.18.0/firebase-auth.js"></script>
+    <script src="/__/firebase/7.18.0/firebase-firestore.js"></script>
+    <script src="/__/firebase/init.js"></script>
+    <script src="scripts/main.js"></script>
 </body>
 
 </html>

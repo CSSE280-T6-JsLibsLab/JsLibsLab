@@ -5,6 +5,7 @@ rhit.FB_COLLECTION_USERS = "Users";
 rhit.FB_COLLECTION_SCRIPTS = "Scripts";
 rhit.FB_KEY_USER_NAME = "name";
 rhit.FB_KEY_USER_PHOTOURL = "photoUrl";
+rhit.FB_KEY_USER_FAVORITELIBRARIES = "favoriteLibraries";
 
 rhit.FB_KEY_SCRIPT_NAME = "name";
 rhit.FB_KEY_SCRIPT_DESCRIPTION = "description";
@@ -20,12 +21,10 @@ rhit.fbSingleScriptManager = null;
 rhit.fbAuthManager = null;
 
 //rhit.effects = ["Sphere Animation", "Layered Animation"]; // "Easing Animation", "Layered Animation", "Sphere Animation", "Advanced Staggering"
-rhit.effects = [];
 
 // TODO: Two more demos
 //https://codepen.io/juliangarnier/pen/dwKGoW
 //https://codepen.io/juliangarnier/pen/MZXQNV
-rhit.effect_file_name = [];
 
 function htmlToElement(html) {
 	var template = document.createElement("template");
@@ -53,6 +52,11 @@ rhit.UserNavController = class {
 		document.querySelector("#menuSignOut").onclick = (event) => {
 			rhit.fbAuthManager.signOut();
 		}
+		rhit.fbUserManager.beginListening(this.updateView.bind(this));
+	}
+
+	updateView() {
+		document.querySelector("#menuProfileUsername").innerHTML = rhit.fbUserManager.name;
 	}
 }
 
@@ -67,6 +71,68 @@ rhit.UploadPageController = class {
 rhit.FavoritesPageController = class {
 	constructor() {
 		// TODO: Read from User favorites and create cards
+		rhit.fbScriptsManager.beginListening(this.handleUserManager.bind(this), null);
+	}
+
+	handleUserManager() {
+		rhit.fbUserManager.beginListening(this.updateView.bind(this));
+	}
+
+	updateView() {
+		const newList = htmlToElement(`<div id="columns" class="row justify-content-start space-evenly"></div>`);
+		for (let i = 0; i < rhit.fbScriptsManager.length; i++) {
+			console.log("hahahaaobject");
+			const script = rhit.fbScriptsManager.getScriptAtIndex(i);
+			if (rhit.fbUserManager.favoriteLibraries.includes(script.id)) {
+				let isFavorited = rhit.fbUserManager.favoriteLibraries.includes(script.id);
+				const newCard = this.createCard(script, isFavorited);
+				newList.appendChild(newCard);
+			}
+
+		}
+		const oldList = document.querySelector("#columns");
+		oldList.removeAttribute("id");
+		oldList.hidden = true;
+		oldList.parentElement.append(newList);
+		oldList.remove();
+
+		for (let i = 0; i < rhit.fbScriptsManager.length; i++) {
+			const script = rhit.fbScriptsManager.getScriptAtIndex(i);
+			if (rhit.fbUserManager.favoriteLibraries.includes(script.id)) {
+				document.querySelector(`#preview_${script.id}`).onclick = (event) => {
+					window.open(`/preview.html?id=${script.id}`);
+				};
+				document.querySelector(`#source_${script.id}`).onclick = (event) => {
+					window.open(script.source);
+				};
+				document.querySelector(`#favorite_${script.id}`).onclick = (event) => {
+					// console.log("Favorite");
+					rhit.fbUserManager.favoriteScript(script.id);
+					document.querySelector(`#favorite_icon_${script.id}`).innerHTML = document.querySelector(`#favorite_icon_${script.id}`).innerHTML == "star_border" ? "star" : "star_border";
+				};
+			}
+		}
+	}
+
+	createCard(script, isFavorited) {
+		return htmlToElement(`<div class="col-xs-6 col-md-4 col-lg-3 card" id="${script.id}">
+								<img class="card-img-bot" src="${script.photoUrl}" alt="Script Photo">
+								<div class="card-body">
+		  							<h5 class="card-title">${script.name}</h5>
+		  							<p class="truncate-overflow">${script.description}</p>
+									<p>View Times: ${script.viewTimes}</p>
+									<div class="row justify-content-center">
+									<div class="col-4">
+										<a id="preview_${script.id}" class="btn btn-primary cardIcon"><i class="material-icons">remove_red_eye</i></a>
+									</div>
+									<div class="col-4">
+										<a id="source_${script.id}" class="btn btn-primary cardIcon"><i class="material-icons">public</i></a>
+									</div>
+									<div class="col-4">
+										<a id="favorite_${script.id}" class="btn btn-primary cardIcon"><i id="favorite_icon_${script.id}" class="material-icons">${isFavorited ? "star" : "star_border"}</i></a>
+									</div>
+								</div>
+	  						</div>`);
 	}
 }
 
@@ -368,11 +434,14 @@ rhit.IndexPageController = class {
 rhit.ProfilePageController = class {
 	constructor() {
 		rhit.fbUserManager.beginListening(this.updateView.bind(this));
+		document.querySelector("#submitUpdateNameButton").onclick = (event) => {
+			rhit.fbUserManager.updateName(document.querySelector("#nameTextField").value);
+		}
 	}
 
 	updateView() {
-		console.log(rhit.fbUserManager.name);
-		console.log(rhit.fbUserManager.photoUrl);
+		document.querySelector("#profileName").innerHTML = `${rhit.fbUserManager.name}`;
+		document.querySelector("#profileLibrariesFavorited").innerHTML = `Libraries Favorited: ${rhit.fbUserManager.favoriteLibraries.length}`;
 	}
 }
 
@@ -382,6 +451,7 @@ rhit.MainPageController = class {
 		this.searchStr = "";
 
 		rhit.fbScriptsManager.beginListening(this.updateView.bind(this), null);
+		rhit.fbUserManager.beginListening(this.updateFavoritesView.bind(this));
 
 		document.querySelector("#searchButton").onclick = (event) => {
 			this.searchStr = document.querySelector("#searchInput").value.toLowerCase();
@@ -397,15 +467,38 @@ rhit.MainPageController = class {
 		}
 	}
 
+	updateFavoritesView() {
+		const newList = htmlToElement(`<div id="favoriteScrollMenu" class="scrollmenu"></div>`);
+		for (let i = 0; i < rhit.fbUserManager.favoriteLibraries.length; i++) {
+			// console.log(rhit.fbUserManager.favoriteLibraries[i]);
+			rhit.fbScriptsManager.getSingleScriptData(rhit.fbUserManager.favoriteLibraries[i]).then((data) => {
+				console.log(data);
+				const newCard = this.createFavoriteCard(data.name, data.photoUrl);
+				newCard.onclick = (event) => {
+					window.open(`/preview.html?id=${rhit.fbUserManager.favoriteLibraries[i]}`);
+				}
+				newList.appendChild(newCard);
+			});
+			//console.log(scriptData);
+			//const newCard = this.createFavoriteCard(script, isFavorited);
+			//newList.appendChild(newCard);
+		}
+		const oldList = document.querySelector("#favoriteScrollMenu");
+		oldList.removeAttribute("id");
+		oldList.hidden = true;
+		oldList.parentElement.append(newList);
+		oldList.remove();
+	}
+
 	updateView() {
 		const newList = htmlToElement(`<div id="columns" class="row justify-content-start space-evenly"></div>`);
 		for (let i = 0; i < rhit.fbScriptsManager.length; i++) {
 			const script = rhit.fbScriptsManager.getScriptAtIndex(i);
 			if (this.searchStr == "" || script.name.toLowerCase().includes(this.searchStr)) {
-				const newCard = this.createCard(script);
+				let isFavorited = rhit.fbUserManager.favoriteLibraries.includes(script.id);
+				const newCard = this.createCard(script, isFavorited);
 				newList.appendChild(newCard);
 			}
-
 		}
 		const oldList = document.querySelector("#columns");
 		oldList.removeAttribute("id");
@@ -423,15 +516,24 @@ rhit.MainPageController = class {
 					window.open(script.source);
 				};
 				document.querySelector(`#favorite_${script.id}`).onclick = (event) => {
-					console.log("Favorite");
-					// TODO: Change Icon when favorited
-					// TODO: Favorite this script
+					// console.log("Favorite");
+					rhit.fbUserManager.favoriteScript(script.id);
+					document.querySelector(`#favorite_icon_${script.id}`).innerHTML = document.querySelector(`#favorite_icon_${script.id}`).innerHTML == "star_border" ? "star" : "star_border";
 				};
 			}
 		}
 	}
 
-	createCard(script) {
+	createFavoriteCard(name, photoUrl){
+		return htmlToElement(`<div class="card">
+								<img class="card-img-top" src="${photoUrl}" alt="Card image cap">
+								<div class="card-body">
+		  							<p class="card-title">${name}</p>
+								</div>
+	  						</div>`);
+	}
+
+	createCard(script, isFavorited) {
 		return htmlToElement(`<div class="col-xs-6 col-md-4 col-lg-3 card" id="${script.id}">
 								<img class="card-img-bot" src="${script.photoUrl}" alt="Script Photo">
 								<div class="card-body">
@@ -446,12 +548,11 @@ rhit.MainPageController = class {
 										<a id="source_${script.id}" class="btn btn-primary cardIcon"><i class="material-icons">public</i></a>
 									</div>
 									<div class="col-4">
-										<a id="favorite_${script.id}" class="btn btn-primary cardIcon"><i class="material-icons">star_border</i></a>
+										<a id="favorite_${script.id}" class="btn btn-primary cardIcon"><i id="favorite_icon_${script.id}" class="material-icons">${isFavorited ? "star" : "star_border"}</i></a>
 									</div>
 								</div>
 	  						</div>`);
 	}
-
 }
 
 rhit.startFirebaseUI = function () {
@@ -623,6 +724,20 @@ rhit.FbScriptsManager = class {
 		this._unsubscribe();
 	}
 
+	getSingleScriptData(id) {
+		let docRef = this._ref.doc(id);
+		return new Promise((resolve, reject) => {
+			docRef.get().then((doc) => {
+				let name = doc.get(rhit.FB_KEY_SCRIPT_NAME);
+				let photoUrl = doc.get(rhit.FB_KEY_SCRIPT_PHOTOURL)
+				resolve ({
+					name,
+					photoUrl
+				});
+			});
+		});
+	}
+
 	get length() {
 		return this._documentSnapshots.length;
 	}
@@ -643,6 +758,24 @@ rhit.FbUserManager = class {
 		this._unsubscribe = null;
 	}
 
+	addNewUserMabye(uid, name) {
+		return this._ref.get().then((doc) => {
+			if (doc.exists) {
+				console.log("There is already a user object");
+			} else {
+				console.log("Creating a new user.");
+				return this._ref.set({
+					[rhit.FB_KEY_USER_NAME]: name,
+					[rhit.FB_KEY_USER_FAVORITELIBRARIES]: []
+				}).then(() => {
+					console.log("Created a new user!");
+				});
+			}
+		}).catch((err) => {
+			console.log("err adding new user", err);
+		})
+	}
+
 	beginListening(changeListener) {
 		this._unsubscribe = this._ref.onSnapshot((doc) => {
 			if (doc.exists) {
@@ -660,12 +793,47 @@ rhit.FbUserManager = class {
 		this._unsubscribe();
 	}
 
+	updateName(newName) {
+		this._ref.update({
+			[rhit.FB_KEY_USER_NAME]: newName,
+		})
+		.then(() => {
+			console.log("Document updated");
+		})
+		.catch(function (error) {
+			console.error("Error updating document: ", error);
+		})
+	}
+
+	favoriteScript(id) {
+		let libraries = this.favoriteLibraries
+		if (libraries.includes(id)) {
+			//console.log("--- You have already favorited.");
+			var index = libraries.indexOf(id);
+			if (index !== -1) {
+				libraries.splice(index, 1);
+			}
+		} else {
+			//console.log("Not favorited.");
+			libraries.push(id);
+		}
+		this._ref.update({
+				[rhit.FB_KEY_USER_FAVORITELIBRARIES]: libraries,
+			})
+			.then(() => {
+				console.log("Document updated");
+			})
+			.catch(function (error) {
+				console.error("Error updating document: ", error);
+			})
+	}
+
 	get name() {
 		return this._documentSnapshot.get(rhit.FB_KEY_USER_NAME);
 	}
 
-	get photoUrl() {
-		return this._documentSnapshot.get(rhit.FB_KEY_USER_PHOTOURL);
+	get favoriteLibraries() {
+		return this._documentSnapshot.get(rhit.FB_KEY_USER_FAVORITELIBRARIES);
 	}
 
 	// addNewUser(uid, name, photourl) {
@@ -728,6 +896,8 @@ rhit.initializePage = function () {
 		console.log("You are on the fav page");
 		const uid = urlParam.get("uid");
 		// TODO: Create fbSingleUserManager
+		rhit.fbUserManager = new rhit.FbUserManager(rhit.fbAuthManager.uid);
+		rhit.fbScriptsManager = new rhit.FbScriptsManager();
 		new rhit.UserNavController();
 		new rhit.FavoritesPageController();
 	}
@@ -735,6 +905,7 @@ rhit.initializePage = function () {
 	if (document.querySelector("#mainPage")) {
 		console.log("You are on the main page");
 		rhit.fbScriptsManager = new rhit.FbScriptsManager();
+		rhit.fbUserManager = new rhit.FbUserManager(rhit.fbAuthManager.uid);
 		new rhit.UserNavController();
 		new rhit.MainPageController();
 	}
@@ -752,17 +923,37 @@ rhit.initializePage = function () {
 		const id = urlParam.get("id");
 		rhit.fbSingleScriptManager = new rhit.FbSingleScriptManager(id);
 		//Initialize external scripts
-
 		new rhit.PreviewPageController();
 	}
 
 	if (document.querySelector("#uploadPage")) {
+		rhit.fbUserManager = new rhit.FbUserManager(rhit.fbAuthManager.uid);
 		new rhit.UserNavController();
 		new rhit.UploadPageController();
 	}
 }
 
+rhit.createUserObjectIfNeeded = function () {
+	return new Promise((resolve, reject) => {
+		if (!rhit.fbAuthManager.isSignedIn) {
+			resolve();
+			return;
+		}
+		rhit.fbUserManager = new rhit.FbUserManager(rhit.fbAuthManager.uid);
 
+		if (!document.querySelector("#loginPage")) {
+			resolve();
+			return;
+		}
+
+		rhit.fbUserManager.addNewUserMabye(
+			rhit.fbAuthManager.uid,
+			rhit.fbAuthManager.name
+		).then(() => {
+			resolve();
+		});
+	});
+}
 
 /* Main */
 /** function and class syntax examples */
@@ -771,8 +962,10 @@ rhit.main = function () {
 	rhit.fbAuthManager = new rhit.FbAuthManager();
 	rhit.fbAuthManager.beginListening(() => {
 		console.log("isSignedIn=" + rhit.fbAuthManager.isSignedIn);
-		rhit.checkForRedirects();
-		rhit.initializePage();
+		rhit.createUserObjectIfNeeded().then(() => {
+			rhit.checkForRedirects();
+			rhit.initializePage();
+		});
 	});
 
 };
