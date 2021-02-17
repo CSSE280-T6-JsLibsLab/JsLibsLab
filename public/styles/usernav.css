@@ -23,6 +23,28 @@
     padding: 0;
 }
 
-a :hover{
+a:hover{
     background-color: gray;
+}
+
+#menuProfileUsername {
+    color: #EEE;
+    position: fixed;
+    top: 110px;
+    left: 20px;
+}
+
+#menuProfileSection {
+    background-image: url('../images/MenuProfileSectionBackground.png');
+}
+
+#menuProfileAvatar {
+    width: 64px;
+    height: 64px;
+    display: block;
+    position: fixed;
+    top: 30px;
+    left: 20px;
+    border-radius: 50%;
+    /* width: 50%; */
 }

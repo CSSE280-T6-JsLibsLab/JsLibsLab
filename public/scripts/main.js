@@ -377,16 +377,23 @@ rhit.ProfilePageController = class {
 }
 
 rhit.MainPageController = class {
+
 	constructor() {
+		this.searchStr = "";
+
 		rhit.fbScriptsManager.beginListening(this.updateView.bind(this), null);
 
 		document.querySelector("#searchButton").onclick = (event) => {
-			rhit.fbScriptsManager.beginListening(this.updateView.bind(this), document.querySelector("#searchInput").value);
+			this.searchStr = document.querySelector("#searchInput").value.toLowerCase();
+			//rhit.fbScriptsManager.beginListening(this.updateView.bind(this), document.querySelector("#searchInput").value);
+			this.updateView();
 		}
 
 		document.querySelector("#clearSearchButton").onclick = (event) => {
-			document.querySelector("#searchInput").value = ""
-			rhit.fbScriptsManager.beginListening(this.updateView.bind(this), null);
+			document.querySelector("#searchInput").value = "";
+			this.searchStr = "";
+			//rhit.fbScriptsManager.beginListening(this.updateView.bind(this), null);
+			this.updateView();
 		}
 	}
 
@@ -394,10 +401,12 @@ rhit.MainPageController = class {
 		const newList = htmlToElement(`<div id="columns" class="row justify-content-start space-evenly"></div>`);
 		for (let i = 0; i < rhit.fbScriptsManager.length; i++) {
 			const script = rhit.fbScriptsManager.getScriptAtIndex(i);
-			const newCard = this.createCard(script);
-			newList.appendChild(newCard);
-		}
+			if (this.searchStr == "" || script.name.toLowerCase().includes(this.searchStr)) {
+				const newCard = this.createCard(script);
+				newList.appendChild(newCard);
+			}
 
+		}
 		const oldList = document.querySelector("#columns");
 		oldList.removeAttribute("id");
 		oldList.hidden = true;
@@ -406,23 +415,25 @@ rhit.MainPageController = class {
 
 		for (let i = 0; i < rhit.fbScriptsManager.length; i++) {
 			const script = rhit.fbScriptsManager.getScriptAtIndex(i);
-			document.querySelector(`#preview_${script.id}`).onclick = (event) => {
-				window.open(`/preview.html?id=${script.id}`);
-			};
-			document.querySelector(`#source_${script.id}`).onclick = (event) => {
-				window.open(script.source);
-			};
-			document.querySelector(`#favorite_${script.id}`).onclick = (event) => {
-				console.log("Favorite");
-				// TODO: Change Icon when favorited
-				// TODO: Favorite this script
-			};
+			if (this.searchStr == "" || script.name.toLowerCase().includes(this.searchStr)) {
+				document.querySelector(`#preview_${script.id}`).onclick = (event) => {
+					window.open(`/preview.html?id=${script.id}`);
+				};
+				document.querySelector(`#source_${script.id}`).onclick = (event) => {
+					window.open(script.source);
+				};
+				document.querySelector(`#favorite_${script.id}`).onclick = (event) => {
+					console.log("Favorite");
+					// TODO: Change Icon when favorited
+					// TODO: Favorite this script
+				};
+			}
 		}
 	}
 
 	createCard(script) {
-		return htmlToElement(`<div class="col-xs-12 col-sm-6 col-md-4 col-lg-3 card" id="${script.id}">
-								<img class="card-img-top" src="${script.photoUrl}" alt="Script Photo">
+		return htmlToElement(`<div class="col-xs-6 col-md-4 col-lg-3 card" id="${script.id}">
+								<img class="card-img-bot" src="${script.photoUrl}" alt="Script Photo">
 								<div class="card-body">
 		  							<h5 class="card-title">${script.name}</h5>
 		  							<p class="truncate-overflow">${script.description}</p>
@@ -599,9 +610,9 @@ rhit.FbScriptsManager = class {
 		}
 		let query = this._ref.limit(50).orderBy(rhit.FB_KEY_SCRIPT_VIEWTIMES, "desc")
 		// TODO: A Real Search
-		if (searchKeyword) {
-			query = query.where(rhit.FB_KEY_SCRIPT_NAME, '==', searchKeyword)
-		}
+		// if (searchKeyword) {
+		// 	query = query.where(rhit.FB_KEY_SCRIPT_NAME, '==', searchKeyword)
+		// }
 		this._unsubscribe = query.onSnapshot((querySnapshot) => {
 			this._documentSnapshots = querySnapshot.docs;
 			changeListener();
