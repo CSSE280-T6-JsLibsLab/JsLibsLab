@@ -179,3 +179,13 @@ div.scrollmenu .card {
 .searchBar button:hover {
     background: var(--black-gold-2);
 }
+
+#cardDropDownMenu {
+    display: block;
+    position: relative;
+    margin-left: auto;
+}
+
+.dropdown-menu-right {
+    left: -128px;
+}

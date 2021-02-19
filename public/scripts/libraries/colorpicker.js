@@ -275,4 +275,4 @@ const clearEffectColorPicker = function() {
 
 // ------------------- The Code Below is just For Demostration on JS Libs Lab Website
 var effectMap = effectMap || new Map();
-effectMap.set("Colorpicker", [startEffectColorPicker, clearEffectColorPicker])
+effectMap.set("Colorpicker", [startEffectColorPicker, clearEffectColorPicker]);

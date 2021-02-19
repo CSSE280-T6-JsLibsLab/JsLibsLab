@@ -6,6 +6,7 @@ rhit.FB_COLLECTION_SCRIPTS = "Scripts";
 rhit.FB_KEY_USER_NAME = "name";
 rhit.FB_KEY_USER_PHOTOURL = "photoUrl";
 rhit.FB_KEY_USER_FAVORITELIBRARIES = "favoriteLibraries";
+rhit.FB_KEY_USER_ISADMIN = "isAdmin";
 
 rhit.FB_KEY_SCRIPT_NAME = "name";
 rhit.FB_KEY_SCRIPT_DESCRIPTION = "description";
@@ -63,7 +64,16 @@ rhit.UserNavController = class {
 /* Upload Page */
 rhit.UploadPageController = class {
 	constructor() {
-		// TODO: Finish this
+		//rhit.fbUserManager.beginListening(this.updateView.bind(this));
+		document.querySelector("#submitUploadScriptButton").onclick = (event) => {
+			console.log(document.querySelector("#formScript"));
+			console.log(document.querySelector("#formScript").value);
+		}
+	}
+
+	updateView() {
+		document.querySelector("#profileName").innerHTML = `${rhit.fbUserManager.name}`;
+		document.querySelector("#profileLibrariesFavorited").innerHTML = `Libraries Favorited: ${rhit.fbUserManager.favoriteLibraries.length}`;
 	}
 }
 
@@ -81,7 +91,6 @@ rhit.FavoritesPageController = class {
 	updateView() {
 		const newList = htmlToElement(`<div id="columns" class="row justify-content-start space-evenly"></div>`);
 		for (let i = 0; i < rhit.fbScriptsManager.length; i++) {
-			console.log("hahahaaobject");
 			const script = rhit.fbScriptsManager.getScriptAtIndex(i);
 			if (rhit.fbUserManager.favoriteLibraries.includes(script.id)) {
 				let isFavorited = rhit.fbUserManager.favoriteLibraries.includes(script.id);
@@ -535,23 +544,35 @@ rhit.MainPageController = class {
 
 	createCard(script, isFavorited) {
 		return htmlToElement(`<div class="col-xs-6 col-md-4 col-lg-3 card" id="${script.id}">
-								<img class="card-img-bot" src="${script.photoUrl}" alt="Script Photo">
-								<div class="card-body">
-		  							<h5 class="card-title">${script.name}</h5>
-		  							<p class="truncate-overflow">${script.description}</p>
-									<p>View Times: ${script.viewTimes}</p>
-									<div class="row justify-content-center">
-									<div class="col-4">
-										<a id="preview_${script.id}" class="btn btn-primary cardIcon"><i class="material-icons">remove_red_eye</i></a>
+								<div id="cardDropDownMenu" class="dropdown pull-xs-right">
+									<button class="btn bmd-btn-icon dropdown-toggle" type="button" id="lr1" data-toggle="dropdown"
+		  									aria-haspopup="true" aria-expanded="false">
+		  								<i class="material-icons">more_vert</i>
+									</button>
+									<div class="dropdown-menu dropdown-menu-left" aria-labelledby="lr1">
+		  							<button id="menuEdit" class="dropdown-item" type="button" data-toggle="modal"
+											data-target="#editScriptDialog"><i class="material-icons">edit</i>&nbsp;&nbsp;&nbsp;Edit</button>
+		  							<button id="menuDelete" class="dropdown-item" type="button" data-toggle="modal"
+											data-target="#deleteScriptDialog"><i class="material-icons">delete</i>&nbsp;&nbsp;&nbsp;Delete</button>
 									</div>
-									<div class="col-4">
-										<a id="source_${script.id}" class="btn btn-primary cardIcon"><i class="material-icons">public</i></a>
-									</div>
-									<div class="col-4">
-										<a id="favorite_${script.id}" class="btn btn-primary cardIcon"><i id="favorite_icon_${script.id}" class="material-icons">${isFavorited ? "star" : "star_border"}</i></a>
-									</div>
+	  						</div>
+							<img class="card-img-bot" src="${script.photoUrl}" alt="Script Photo">
+							<div class="card-body">
+		  						<h5 class="card-title">${script.name}</h5>
+		  						<p class="truncate-overflow">${script.description}</p>
+								<p>View Times: ${script.viewTimes}</p>
+								<div class="row justify-content-center">
+								<div class="col-4">
+									<a id="preview_${script.id}" class="btn btn-primary cardIcon"><i class="material-icons">remove_red_eye</i></a>
 								</div>
-	  						</div>`);
+								<div class="col-4">
+									<a id="source_${script.id}" class="btn btn-primary cardIcon"><i class="material-icons">public</i></a>
+								</div>
+								<div class="col-4">
+									<a id="favorite_${script.id}" class="btn btn-primary cardIcon"><i id="favorite_icon_${script.id}" class="material-icons">${isFavorited ? "star" : "star_border"}</i></a>
+								</div>
+							</div>
+	  					</div>`);
 	}
 }
 
@@ -758,7 +779,7 @@ rhit.FbUserManager = class {
 		this._unsubscribe = null;
 	}
 
-	addNewUserMabye(uid, name) {
+	addNewUserMabye(uid, name, isAdmin) {
 		return this._ref.get().then((doc) => {
 			if (doc.exists) {
 				console.log("There is already a user object");
@@ -766,7 +787,8 @@ rhit.FbUserManager = class {
 				console.log("Creating a new user.");
 				return this._ref.set({
 					[rhit.FB_KEY_USER_NAME]: name,
-					[rhit.FB_KEY_USER_FAVORITELIBRARIES]: []
+					[rhit.FB_KEY_USER_FAVORITELIBRARIES]: [],
+					[rhit.FB_KEY_USER_ISADMIN]: isAdmin,
 				}).then(() => {
 					console.log("Created a new user!");
 				});
@@ -948,7 +970,8 @@ rhit.createUserObjectIfNeeded = function () {
 
 		rhit.fbUserManager.addNewUserMabye(
 			rhit.fbAuthManager.uid,
-			rhit.fbAuthManager.name
+			rhit.fbAuthManager.name,
+			false,
 		).then(() => {
 			resolve();
 		});

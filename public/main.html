@@ -68,36 +68,100 @@
         </div>
 
         <div id="columns" class="row justify-content-center">
-          
+
           <!-- Card -->
-          <!-- <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3 card">
-            <img class="card-img-top" src="https://hatrabbits.com/wp-content/uploads/2017/01/random.jpg"
-              alt="Card image cap">
+          <!-- <div class="col-xs-6 col-md-4 col-lg-3 card card">
+            <div id="cardDropDownMenu" class="dropdown pull-xs-right">
+              <button class="btn bmd-btn-icon dropdown-toggle" type="button" id="lr1" data-toggle="dropdown"
+                aria-haspopup="true" aria-expanded="false">
+                <i class="material-icons">more_vert</i>
+              </button>
+              <div class="dropdown-menu dropdown-menu-right" aria-labelledby="lr1">
+                <button id="menuEdit" class="dropdown-item" type="button" data-toggle="modal"
+                  data-target="#editScriptDialog"><i class="material-icons">edit</i>&nbsp;&nbsp;&nbsp;Edit</button>
+                <button id="menuDelete" class="dropdown-item" type="button" data-toggle="modal"
+                  data-target="#deleteScriptDialog"><i class="material-icons">delete</i>&nbsp;&nbsp;&nbsp;Delete</button>
+              </div>
+            </div>
+            <img class="card-img-bot" src="https://hatrabbits.com/wp-content/uploads/2017/01/random.jpg"
+              alt="Script Photo">
             <div class="card-body">
               <h5 class="card-title">Card title</h5>
-              <p class="truncate-overflow">Some quick example text to build on the card title and make up the bulk of the card's
-                content.</p>
+              <p class="truncate-overflow">Some quick example text to build on the card title and make up the bulk of
+                the card's content.</p>
+              <p>View Times: ${script.viewTimes}</p>
               <div class="row justify-content-center">
                 <div class="col-4">
                   <a href="#" class="btn btn-primary cardIcon"><i class="material-icons">remove_red_eye</i></a>
                 </div>
                 <div class="col-4">
-                <a href="#" class="btn btn-primary cardIcon"><i class="material-icons">public</i></a>
-              </div>
+                  <a href="#" class="btn btn-primary cardIcon"><i class="material-icons">public</i></a>
+                </div>
                 <div class="col-4">
-                <a href="#" class="btn btn-primary cardIcon"><i class="material-icons">star_border</i></a>
-              </div>
+                  <a href="#" class="btn btn-primary cardIcon"><i class="material-icons">star_border</i></a>
+                </div>
               </div>
             </div>
           </div> -->
           <!-- Card Wrapper -->
 
         </div>
-
       </div>
-
     </main>
   </div>
+
+
+  <!-- Modal -->
+  <div class="modal fade" id="editScriptDialog" tabindex="-1" role="dialog" aria-labelledby="Edit Script dialog"
+    aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title">Edit this Script</h5>
+        </div>
+        <div class="modal-body">
+          <div class="form-group">
+            <label for="formScriptName" class="col-form-label">Script Name</label>
+            <input class="form-control" id="formScriptName"></input>
+          </div>
+          <div class="form-group">
+            <label for="formDescription" class="col-form-label">Description</label>
+            <input class="form-control" id="formDescription"></input>
+          </div>
+          <div class="form-group">
+            <label for="formPhotoUrl" class="col-form-label">Photo URL</label>
+            <input class="form-control" id="formPhotoUrl"></input>
+          </div>
+          <div class="form-group">
+            <label for="formSourceLink" class="col-form-label">Source Link</label>
+            <input class="form-control" id="formSourceLink"></input>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+          <button id="submitUploadScriptButton" type="button" class="btn btn-primary"
+            data-dismiss="modal">Update</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="modal fade" id="deleteScriptDialog" tabindex="-1" role="dialog" aria-labelledby="Delete quote dialog"
+    aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title">Delete this Script</h5>
+        </div>
+        <div class="modal-body">Are you sure you want to delete this Script?</div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">CANCEL</button>
+          <button type="button" id="submitDeleteScript" class="btn btn-primary" data-dismiss="modal">DELETE</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
   <script src="scripts/jquery.min.js"></script>
   <script src="scripts/popper.js"></script>
   <script src="scripts/bootstrap-material-design.js"></script>
