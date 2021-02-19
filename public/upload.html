@@ -6,10 +6,10 @@
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
   <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700|Material+Icons">
   <link rel="stylesheet" href="styles/bootstrap-material-design.min.css">
-  <link rel="stylesheet" href="styles/color.css">
-  <link rel="stylesheet" href="styles/main.css">
+  <link rel="stylesheet" href="styles/upload.css">
   <link rel="stylesheet" href="styles/usernav.css">
-  <title>JS LibsLab</title>
+  <link rel="stylesheet" href="styles/color.css">
+  <title>Your Profile</title>
 </head>
 
 <body>
@@ -42,77 +42,48 @@
         <a id="menuSignOut" class="list-group-item"><i class="material-icons">login</i>Sign out</a>
       </ul>
     </div>
-<!-- 
+
     <main class="bmd-layout-content">
       <div id="uploadPage" class="container page-container">
-        <div class="row justify-content-center">
-          <img class="col-2" src="images/upload.png" data-toggle="modal" data-target="#uploadScriptModal">
-        </div>
       </div>
-    </main> -->
-  </div>
+    </main>
 
-  <!-- <div class="modal fade" id="uploadScriptModal" tabindex="-1" role="dialog" aria-labelledby="uploadScriptModalLabel"
-    aria-hidden="true">
-    <div class="modal-dialog" role="document">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h5 class="modal-title">Upload Script</h5>
-          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-            <span aria-hidden="true">&times;</span>
-          </button>
-        </div>
-        <div class="modal-body">
-          <div class="form-group">
-            <label for="formScriptName" class="col-form-label">Script Name</label>
-            <input class="form-control" id="formScriptName"></input>
+    <div class="modal fade" id="updateNameModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+      aria-hidden="true">
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title">Enter Your New Name</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
           </div>
-          <div class="form-group">
-            <label for="formDescription" class="col-form-label">Description</label>
-            <input class="form-control" id="formDescription"></input>
+          <div class="modal-body">
+            <div class="form-group">
+              <label for="nameTextField" class="col-form-label">Name:</label>
+              <input class="form-control" id="nameTextField"></input>
+            </div>
           </div>
-          <div class="form-group">
-            <label for="formPhotoUrl" class="col-form-label">Photo URL</label>
-            <input class="form-control" id="formPhotoUrl"></input>
-          </div>   
-          <div class="form-group">
-            <label for="formFileName" class="col-form-label">File Name</label>
-            <input class="form-control" id="formFileName"></input>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+            <button id="submitUpdateNameButton" type="button" class="btn btn-primary" data-dismiss="modal">Update</button>
           </div>
-          <div class="form-group">
-            <label for="formScript" class="col-form-label">Script</label>
-            <input type="file" class="form-control" id="formScript"></input>
-          </div>
-          <div class="form-group">
-            <label for="formEffectNames" class="col-form-label">Effect Names</label>
-            <input class="form-control" id="formEffectNames"></input>
-          </div>
-          <div class="form-group">
-            <label for="formSourceLink" class="col-form-label">Source Link</label>
-            <input class="form-control" id="formSourceLink"></input>
-          </div>
-        </div>
-
-        <div class="modal-footer">
-          <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-          <button id="submitUploadScriptButton" type="button" class="btn btn-primary" data-dismiss="modal">Upload</button>
         </div>
       </div>
     </div>
-  </div> -->
 
-  <script src="scripts/jquery.min.js"></script>
-  <script src="scripts/popper.js"></script>
-  <script src="scripts/bootstrap-material-design.js"></script>
-  <script>
-    $("body").bootstrapMaterialDesign();
-  </script>
-  <script src="/__/firebase/7.18.0/firebase-app.js"></script>
-  <script src="/__/firebase/7.18.0/firebase-analytics.js"></script>
-  <script src="/__/firebase/7.18.0/firebase-auth.js"></script>
-  <script src="/__/firebase/7.18.0/firebase-firestore.js"></script>
-  <script src="/__/firebase/init.js"></script>
-  <script src="scripts/main.js"></script>
+    <script src="scripts/jquery.min.js"></script>
+    <script src="scripts/popper.js"></script>
+    <script src="scripts/bootstrap-material-design.js"></script>
+    <script>
+      $("body").bootstrapMaterialDesign();
+    </script>
+    <script src="/__/firebase/7.18.0/firebase-app.js"></script>
+    <script src="/__/firebase/7.18.0/firebase-analytics.js"></script>
+    <script src="/__/firebase/7.18.0/firebase-auth.js"></script>
+    <script src="/__/firebase/7.18.0/firebase-firestore.js"></script>
+    <script src="/__/firebase/init.js"></script>
+    <script src="scripts/main.js"></script>
 </body>
 
 </html>

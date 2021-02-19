@@ -65,15 +65,11 @@ rhit.UserNavController = class {
 rhit.UploadPageController = class {
 	constructor() {
 		//rhit.fbUserManager.beginListening(this.updateView.bind(this));
-		document.querySelector("#submitUploadScriptButton").onclick = (event) => {
-			console.log(document.querySelector("#formScript"));
-			console.log(document.querySelector("#formScript").value);
-		}
+		alert("Uploading Script is WIP.");
 	}
 
 	updateView() {
-		document.querySelector("#profileName").innerHTML = `${rhit.fbUserManager.name}`;
-		document.querySelector("#profileLibrariesFavorited").innerHTML = `Libraries Favorited: ${rhit.fbUserManager.favoriteLibraries.length}`;
+		
 	}
 }
 
@@ -81,7 +77,7 @@ rhit.UploadPageController = class {
 rhit.FavoritesPageController = class {
 	constructor() {
 		// TODO: Read from User favorites and create cards
-		rhit.fbScriptsManager.beginListening(this.handleUserManager.bind(this), null);
+		rhit.fbScriptsManager.beginListening(this.handleUserManager.bind(this));
 	}
 
 	handleUserManager() {
@@ -455,12 +451,11 @@ rhit.ProfilePageController = class {
 }
 
 rhit.MainPageController = class {
-
 	constructor() {
+		this.selectedScript = null;
 		this.searchStr = "";
 
-		rhit.fbScriptsManager.beginListening(this.updateView.bind(this), null);
-		rhit.fbUserManager.beginListening(this.updateFavoritesView.bind(this));
+		rhit.fbScriptsManager.beginListening(this.chainListening.bind(this));
 
 		document.querySelector("#searchButton").onclick = (event) => {
 			this.searchStr = document.querySelector("#searchInput").value.toLowerCase();
@@ -474,23 +469,36 @@ rhit.MainPageController = class {
 			//rhit.fbScriptsManager.beginListening(this.updateView.bind(this), null);
 			this.updateView();
 		}
+
+		$("#editScriptDialog").on("show.bs.modal", (event) => {
+            //pre animation
+            document.querySelector("#formScriptName").value = this.selectedScript == null ? "" : this.selectedScript.name;
+            document.querySelector("#formDescription").value = this.selectedScript == null ? "" : this.selectedScript.description;
+			document.querySelector("#formPhotoUrl").value = this.selectedScript == null ? "" : this.selectedScript.photoUrl;
+			document.querySelector("#formSourceLink").value = this.selectedScript == null ? "" : this.selectedScript.source;
+        });
+ 
+        $("#editScriptDialog").on("shown.bs.modal", (event) => {
+            //post animation
+            document.querySelector("#formScriptName").focus();
+        });
+	}
+
+	chainListening() {
+		rhit.fbUserManager.beginListening(this.updateView.bind(this));
 	}
 
 	updateFavoritesView() {
 		const newList = htmlToElement(`<div id="favoriteScrollMenu" class="scrollmenu"></div>`);
-		for (let i = 0; i < rhit.fbUserManager.favoriteLibraries.length; i++) {
-			// console.log(rhit.fbUserManager.favoriteLibraries[i]);
-			rhit.fbScriptsManager.getSingleScriptData(rhit.fbUserManager.favoriteLibraries[i]).then((data) => {
-				console.log(data);
-				const newCard = this.createFavoriteCard(data.name, data.photoUrl);
+		for (let i = 0; i < rhit.fbScriptsManager.length; i++) {
+			const script = rhit.fbScriptsManager.getScriptAtIndex(i);
+			if (rhit.fbUserManager.favoriteLibraries.includes(script.id)) {
+				const newCard = this.createFavoriteCard(script.name, script.photoUrl);
 				newCard.onclick = (event) => {
-					window.open(`/preview.html?id=${rhit.fbUserManager.favoriteLibraries[i]}`);
+					window.open(`/preview.html?id=${script.id}`);
 				}
 				newList.appendChild(newCard);
-			});
-			//console.log(scriptData);
-			//const newCard = this.createFavoriteCard(script, isFavorited);
-			//newList.appendChild(newCard);
+			}
 		}
 		const oldList = document.querySelector("#favoriteScrollMenu");
 		oldList.removeAttribute("id");
@@ -529,11 +537,37 @@ rhit.MainPageController = class {
 					rhit.fbUserManager.favoriteScript(script.id);
 					document.querySelector(`#favorite_icon_${script.id}`).innerHTML = document.querySelector(`#favorite_icon_${script.id}`).innerHTML == "star_border" ? "star" : "star_border";
 				};
+				document.querySelector(`#dropdown_${script.id}`).onclick = (event) => {
+					this.selectedScript = script;
+				};
+				document.querySelector("#submitUpdateScriptButton").onclick = (event) => {
+					rhit.fbSingleScriptManager = new rhit.FbSingleScriptManager(this.selectedScript.id);
+					let scriptName = document.querySelector("#formScriptName").value;
+					let scriptDescription = document.querySelector("#formDescription").value;
+					let scriptPhotoUrl = document.querySelector("#formPhotoUrl").value;
+					let scriptSourceLink = document.querySelector("#formSourceLink").value;
+					rhit.fbSingleScriptManager.update(scriptName, scriptDescription, scriptPhotoUrl, scriptSourceLink);
+				}
+				document.querySelector("#submitDeleteScriptButton").onclick = (event) => {
+					rhit.fbSingleScriptManager = new rhit.FbSingleScriptManager(this.selectedScript.id);
+					rhit.fbSingleScriptManager.delete();
+				}
 			}
 		}
+		this.updateFavoritesView();
+		this.setDropdownMenus();
 	}
 
-	createFavoriteCard(name, photoUrl){
+	setDropdownMenus() {
+		if (!rhit.fbUserManager.isAdmin) {
+			return;
+		}
+		document.querySelectorAll(".cardDropDownMenu").forEach((cardEl) => {
+			cardEl.style.display = "block";
+		});
+	}
+
+	createFavoriteCard(name, photoUrl) {
 		return htmlToElement(`<div class="card">
 								<img class="card-img-top" src="${photoUrl}" alt="Card image cap">
 								<div class="card-body">
@@ -544,8 +578,8 @@ rhit.MainPageController = class {
 
 	createCard(script, isFavorited) {
 		return htmlToElement(`<div class="col-xs-6 col-md-4 col-lg-3 card" id="${script.id}">
-								<div id="cardDropDownMenu" class="dropdown pull-xs-right">
-									<button class="btn bmd-btn-icon dropdown-toggle" type="button" id="lr1" data-toggle="dropdown"
+								<div class="cardDropDownMenu dropdown pull-xs-right">
+									<button class="btn bmd-btn-icon dropdown-toggle" type="button" id="dropdown_${script.id}" data-toggle="dropdown"
 		  									aria-haspopup="true" aria-expanded="false">
 		  								<i class="material-icons">more_vert</i>
 									</button>
@@ -578,7 +612,7 @@ rhit.MainPageController = class {
 
 rhit.startFirebaseUI = function () {
 	var uiConfig = {
-		signInSuccessUrl: '/main.html',
+		signInSuccessUrl: '/login.html',
 		signInOptions: [
 			// Leave the lines as is for the providers you want to offer your users.
 			firebase.auth.GoogleAuthProvider.PROVIDER_ID,
@@ -683,11 +717,30 @@ rhit.FbSingleScriptManager = class {
 				[rhit.FB_KEY_SCRIPT_VIEWTIMES]: this.viewTimes + 1,
 			})
 			.then(() => {
-				console.log("Document written");
+				console.log("Document updated");
 			})
 			.catch(function (error) {
 				console.error("Error updating document: ", error);
 			})
+	}
+
+	update(name, desc, photoUrl, src) {
+		this._ref.update({
+				[rhit.FB_KEY_SCRIPT_NAME]: name,
+				[rhit.FB_KEY_SCRIPT_DESCRIPTION]: desc,
+				[rhit.FB_KEY_SCRIPT_PHOTOURL]: photoUrl,
+				[rhit.FB_KEY_SCRIPT_SOURCE]: src
+			})
+			.then(() => {
+				console.log("Document updated");
+			})
+			.catch(function (error) {
+				console.error("Error updating document: ", error);
+			})
+	}
+
+	delete() {
+		return this._ref.delete();
 	}
 
 	get name() {
@@ -726,15 +779,11 @@ rhit.FbScriptsManager = class {
 		this._unsubscribe = null;
 	}
 
-	beginListening(changeListener, searchKeyword) {
+	beginListening(changeListener) {
 		if (this._unsubscribe) {
 			this.stopListening();
 		}
 		let query = this._ref.limit(50).orderBy(rhit.FB_KEY_SCRIPT_VIEWTIMES, "desc")
-		// TODO: A Real Search
-		// if (searchKeyword) {
-		// 	query = query.where(rhit.FB_KEY_SCRIPT_NAME, '==', searchKeyword)
-		// }
 		this._unsubscribe = query.onSnapshot((querySnapshot) => {
 			this._documentSnapshots = querySnapshot.docs;
 			changeListener();
@@ -743,20 +792,6 @@ rhit.FbScriptsManager = class {
 
 	stopListening() {
 		this._unsubscribe();
-	}
-
-	getSingleScriptData(id) {
-		let docRef = this._ref.doc(id);
-		return new Promise((resolve, reject) => {
-			docRef.get().then((doc) => {
-				let name = doc.get(rhit.FB_KEY_SCRIPT_NAME);
-				let photoUrl = doc.get(rhit.FB_KEY_SCRIPT_PHOTOURL)
-				resolve ({
-					name,
-					photoUrl
-				});
-			});
-		});
 	}
 
 	get length() {
@@ -817,14 +852,14 @@ rhit.FbUserManager = class {
 
 	updateName(newName) {
 		this._ref.update({
-			[rhit.FB_KEY_USER_NAME]: newName,
-		})
-		.then(() => {
-			console.log("Document updated");
-		})
-		.catch(function (error) {
-			console.error("Error updating document: ", error);
-		})
+				[rhit.FB_KEY_USER_NAME]: newName,
+			})
+			.then(() => {
+				console.log("Document updated");
+			})
+			.catch(function (error) {
+				console.error("Error updating document: ", error);
+			})
 	}
 
 	favoriteScript(id) {
@@ -856,6 +891,10 @@ rhit.FbUserManager = class {
 
 	get favoriteLibraries() {
 		return this._documentSnapshot.get(rhit.FB_KEY_USER_FAVORITELIBRARIES);
+	}
+
+	get isAdmin() {
+		return this._documentSnapshot.get(rhit.FB_KEY_USER_ISADMIN);
 	}
 
 	// addNewUser(uid, name, photourl) {

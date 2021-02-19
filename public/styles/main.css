@@ -180,8 +180,8 @@ div.scrollmenu .card {
     background: var(--black-gold-2);
 }
 
-#cardDropDownMenu {
-    display: block;
+.cardDropDownMenu {
+    display: none;
     position: relative;
     margin-left: auto;
 }
