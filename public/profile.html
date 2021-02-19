@@ -45,10 +45,22 @@
 
     <main class="bmd-layout-content">
       <div id="profilePage" class="container page-container">
-        <img id="profilePhoto" src="images/avatar.png" alt="ImageIcon">
-        <h2 id="profileName">Your Name</h2>
-        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#updateNameModal">Update Name</button>
-        <h2 id="profileLibrariesFavorited">0</h2>
+
+        <div class="profile-form justify-content-center">
+          <div style="display: flex; justify-content: center;">
+            <img id="profilePhoto" src="images/avatar.png" alt="ImageIcon">
+          </div>
+          <br>
+          <h2 id="profileName" style="display: flex; justify-content: center;">Your Name</h2>
+          <div style="display: flex; justify-content: center;">
+            <button type="button" id="updateButton" class="btn btn-lg btn-outline-primary btn-block" data-toggle="modal"
+              data-target="#updateNameModal"><i class="fa fa-sign-in"></i>Update Name</button>
+          </div>
+          <br>
+          <h2 id="profileLibrariesFavorited" style="display: flex; justify-content: center;">0</h2>
+          <br>
+        </div>
+
       </div>
     </main>
 
@@ -70,7 +82,8 @@
           </div>
           <div class="modal-footer">
             <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-            <button id="submitUpdateNameButton" type="button" class="btn btn-primary" data-dismiss="modal">Update</button>
+            <button id="submitUpdateNameButton" type="button" class="btn btn-primary"
+              data-dismiss="modal">Update</button>
           </div>
         </div>
       </div>
